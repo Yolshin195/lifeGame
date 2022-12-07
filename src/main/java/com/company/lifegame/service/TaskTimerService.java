@@ -55,7 +55,8 @@ public class TaskTimerService {
         Duration duration = Duration.ZERO;
 
         List<TaskTimer> taskTimerList =  dataManager.load(TaskTimer.class)
-                .query("e.current = false")
+                .query("e.task = :task and e.current = false")
+                .parameter("task", task)
                 .list();
         for (TaskTimer timer : taskTimerList) {
             duration = duration.plus(Duration.between(timer.getBegin(), timer.getEnd()));
@@ -68,6 +69,6 @@ public class TaskTimerService {
         long hours = duration.toHours();
         long mins = duration.minusHours(hours).toMinutes();
         long seconds = (duration.minusMinutes(mins).toMillis() / 1000) %60;
-        return String.format("%02d:%02d:%02ds", hours, mins, seconds);
+        return String.format("%02d:%02d:%02d", hours, mins, seconds);
     }
 }

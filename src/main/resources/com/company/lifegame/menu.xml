@@ -7,6 +7,7 @@
         <item screen="lg_Task.browse" caption="msg://com.company.lifegame.screen.task/taskBrowse.menu"/>
         <item screen="lg_Logbook.browse" caption="msg://com.company.lifegame.screen.logbook/logbookBrowse.menu"/>
         <item screen="lg_TaskTimer.browse" caption="msg://com.company.lifegame.screen.tasktimer/taskTimerBrowse.menu"/>
+        <item screen="lg_Skill.browse" caption="msg://com.company.lifegame.screen.skill/skillBrowse.menu"/>
     </menu>
 
 </menu-config>

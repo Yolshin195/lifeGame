@@ -69,7 +69,7 @@ public class Task {
     private String description;
 
     @Column(name = "STATUS")
-    private String status;
+    private String status = TaskStatus.NEW.getId();
 
     @OneToMany(mappedBy = "task")
     private List<TaskTimer> timerList;

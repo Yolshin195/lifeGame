@@ -8,10 +8,12 @@ import javax.annotation.Nullable;
 public enum TaskStatus implements EnumClass<String> {
 
     NEW("New"),
+    ANALYSIS("Analysis"),
     WORK("Work"),
-    DONE("Done");
+    DONE("Done"),
+    CANCELED("Canceled");
 
-    private String id;
+    private final String id;
 
     TaskStatus(String id) {
         this.id = id;
