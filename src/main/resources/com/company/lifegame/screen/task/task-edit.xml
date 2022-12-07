@@ -45,11 +45,11 @@
                     <comboBox id="statusField" property="status"/>
                 </column>
             </form>
-            <groupBox id="timerGroupBox" caption="Таймер" visible="false">
+            <groupBox id="timerGroupBox" caption="msg://com.company.lifegame.screen.task/taskEdit.timerGroupBox" visible="false">
                 <buttonsPanel>
-                    <label id="timerLabel" value="00:00:00"/>
-                    <button id="timerStartBtn" icon="PLAY" caption="Старт"/>
-                    <button id="timerStopBtn" icon="STOP" caption="Стоп"/>
+                    <label id="timerLabel" value="msg://com.company.lifegame.screen.task/taskEdit.timerLabel"/>
+                    <button id="timerStartBtn" icon="PLAY" caption="msg://com.company.lifegame.screen.task/taskEdit.timerStartBtn"/>
+                    <button id="timerStopBtn" icon="STOP" caption="msg://com.company.lifegame.screen.task/taskEdit.timerStopBtn"/>
                 </buttonsPanel>
             </groupBox>
         </scrollBox>
