@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://jmix.io/schema/ui/fragment">
+    <facets>
+        <timer id="timer"
+               autostart="false"
+               delay="1000"
+               repeating="true"/>
+    </facets>
+    <layout>
+        <button id="toggleTimerBtn" icon="PLAY"/>
+    </layout>
+</fragment>
