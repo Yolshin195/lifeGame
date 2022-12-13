@@ -4,7 +4,6 @@ import com.company.lifegame.entity.Task;
 import com.company.lifegame.entity.TaskTimer;
 import com.company.lifegame.service.TaskTimerService;
 import io.jmix.ui.component.Button;
-import io.jmix.ui.component.Label;
 import io.jmix.ui.component.Timer;
 import io.jmix.ui.icon.JmixIcon;
 import io.jmix.ui.screen.*;
@@ -34,9 +33,24 @@ public class TimerFragment extends ScreenFragment {
 
     private boolean running = false;
 
+    private void start() {
+        toggleTimerBtn.setStyleName("danger");
+        toggleTimerBtn.setIconFromSet(JmixIcon.STOP);
+        timer.start();
+        running = true;
+    }
+
+    private void stop() {
+        toggleTimerBtn.setStyleName("");
+        toggleTimerBtn.setIconFromSet(JmixIcon.PLAY);
+        timer.stop();
+        running = false;
+    }
+
     private void onInit() {
         if (task == null || task.getCreatedDate() == null) return;
 
+        timer.stop();
         this.toggleTimerBtn.setEnabled(true);
 
         lastTimers = taskTimerService.getDurationAll(task);
@@ -44,9 +58,10 @@ public class TimerFragment extends ScreenFragment {
         Optional<TaskTimer> currentTimerOptional = taskTimerService.getCurrentTimer(task);
         if (currentTimerOptional.isPresent()) {
             currentTimer = currentTimerOptional.get();
+            start();
             onTimerTick(null);
-            timer.start();
         } else {
+            stop();
             String value = taskTimerService.format(lastTimers);
             toggleTimerBtn.setCaption(value);
         }
@@ -58,21 +73,13 @@ public class TimerFragment extends ScreenFragment {
         if (task == null) return;
 
         if (!running) {
-            toggleTimerBtn.setStyleName("danger");
-            toggleTimerBtn.setIconFromSet(JmixIcon.STOP);
-
             currentTimer = taskTimerService.start(task);
-            timer.start();
-            running = true;
+            start();
         } else {
-            timer.stop();
             currentTimer = taskTimerService.stop(task);
             //TODO Warning:(70, 72) Method invocation 'getBegin' may produce 'NullPointerException'
             lastTimers = lastTimers.plus(Duration.between(currentTimer.getBegin(), currentTimer.getEnd()));
-
-            toggleTimerBtn.setStyleName("");
-            toggleTimerBtn.setIconFromSet(JmixIcon.PLAY);
-            running = false;
+            stop();
         }
     }
 
