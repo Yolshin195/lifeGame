@@ -14,10 +14,6 @@
     <facets>
         <dataLoadCoordinator auto="true"/>
         <screenSettings id="settingsFacet" auto="true"/>
-<!--        <timer id="timer"-->
-<!--               autostart="false"-->
-<!--               delay="1000"-->
-<!--               repeating="true"/>-->
     </facets>
     <actions>
         <action id="windowCommitAndClose" caption="msg:///actions.Ok"
@@ -43,15 +39,10 @@
                     <textField id="nameField" property="name"/>
                     <textField id="descriptionField" property="description"/>
                     <comboBox id="statusField" property="status"/>
+                    <buttonsPanel id="timerButtonsPanel" caption="msg://com.company.lifegame.screen.task/taskEdit.timerButtonsPanel" visible="false">
+                    </buttonsPanel>
                 </column>
             </form>
-            <groupBox id="timerGroupBox" caption="msg://com.company.lifegame.screen.task/taskEdit.timerGroupBox" visible="false">
-<!--                <buttonsPanel>-->
-<!--                    <label id="timerLabel" value="msg://com.company.lifegame.screen.task/taskEdit.timerLabel"/>-->
-<!--                    <button id="timerStartBtn" icon="PLAY" caption="msg://com.company.lifegame.screen.task/taskEdit.timerStartBtn"/>-->
-<!--                    <button id="timerStopBtn" icon="STOP" caption="msg://com.company.lifegame.screen.task/taskEdit.timerStopBtn"/>-->
-<!--                </buttonsPanel>-->
-            </groupBox>
         </scrollBox>
         <hbox id="editActions" spacing="true">
             <button id="commitAndCloseBtn" action="windowCommitAndClose"/>

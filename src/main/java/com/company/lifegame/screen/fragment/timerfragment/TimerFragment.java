@@ -34,22 +34,23 @@ public class TimerFragment extends ScreenFragment {
 
     private boolean running = false;
 
-    @Subscribe
-    public void onAttach(AttachEvent event) {
-        if (task != null && task.getCreatedDate() != null) {
-            lastTimers = taskTimerService.getDurationAll(task);
+    private void onInit() {
+        if (task == null || task.getCreatedDate() == null) return;
 
-            Optional<TaskTimer> currentTimerOptional = taskTimerService.getCurrentTimer(task);
-            if (currentTimerOptional.isPresent()) {
-                currentTimer = currentTimerOptional.get();
-                onTimerTick(null);
-                timer.start();
-            } else {
-                String value = taskTimerService.format(lastTimers);
-                toggleTimerBtn.setCaption(value);
-            }
+        this.toggleTimerBtn.setEnabled(true);
 
+        lastTimers = taskTimerService.getDurationAll(task);
+
+        Optional<TaskTimer> currentTimerOptional = taskTimerService.getCurrentTimer(task);
+        if (currentTimerOptional.isPresent()) {
+            currentTimer = currentTimerOptional.get();
+            onTimerTick(null);
+            timer.start();
+        } else {
+            String value = taskTimerService.format(lastTimers);
+            toggleTimerBtn.setCaption(value);
         }
+
     }
 
     @Subscribe("toggleTimerBtn")
@@ -66,6 +67,7 @@ public class TimerFragment extends ScreenFragment {
         } else {
             timer.stop();
             currentTimer = taskTimerService.stop(task);
+            //TODO Warning:(70, 72) Method invocation 'getBegin' may produce 'NullPointerException'
             lastTimers = lastTimers.plus(Duration.between(currentTimer.getBegin(), currentTimer.getEnd()));
 
             toggleTimerBtn.setStyleName("");
@@ -83,5 +85,6 @@ public class TimerFragment extends ScreenFragment {
 
     public void setTask(Task task) {
         this.task = task;
+        onInit();
     }
 }

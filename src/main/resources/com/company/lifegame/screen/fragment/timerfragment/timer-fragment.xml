@@ -6,7 +6,7 @@
                delay="1000"
                repeating="true"/>
     </facets>
-    <layout>
-        <button id="toggleTimerBtn" icon="PLAY"/>
+    <layout width="AUTO" spacing="false">
+        <button id="toggleTimerBtn" icon="PLAY" caption="00:00:00" enable="false"/>
     </layout>
 </fragment>
