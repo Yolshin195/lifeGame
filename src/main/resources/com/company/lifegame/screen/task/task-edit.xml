@@ -36,11 +36,10 @@
                             <action id="entityClear" type="entity_clear"/>
                         </actions>
                     </entityPicker>
-                    <textField id="nameField" property="name"/>
-                    <textField id="descriptionField" property="description"/>
                     <comboBox id="statusField" property="status"/>
-                    <buttonsPanel id="timerButtonsPanel" caption="msg://com.company.lifegame.screen.task/taskEdit.timerButtonsPanel" visible="false">
-                    </buttonsPanel>
+                    <textField id="nameField" property="name"/>
+                    <resizableTextArea resizableDirection="VERTICAL" id="descriptionField" property="description"/>
+                    <buttonsPanel id="timerButtonsPanel" caption="msg://com.company.lifegame.screen.task/taskEdit.timerButtonsPanel" visible="false"/>
                 </column>
             </form>
         </scrollBox>
