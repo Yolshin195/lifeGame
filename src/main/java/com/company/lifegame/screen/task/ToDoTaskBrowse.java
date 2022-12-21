@@ -77,7 +77,7 @@ public class ToDoTaskBrowse extends StandardLookup<Task> {
     public void onDoneBtnClick(Button.ClickEvent event) {
         Task task = tasksTable.getSingleSelected();
         if (task != null) {
-            taskService.done(task);
+            taskService.doneAndArchive(task);
             tasksDl.load();
         }
     }
