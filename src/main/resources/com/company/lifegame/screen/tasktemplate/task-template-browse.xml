@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
         xmlns:c="http://jmix.io/schema/ui/jpql-condition"
-        caption="msg://taskBrowse.caption"
-        focusComponent="tasksTable">
+        caption="msg://taskTemplateBrowse.caption"
+        focusComponent="taskTemplatesTable">
     <data readOnly="true">
-        <collection id="tasksDc"
-                    class="com.company.lifegame.entity.Task">
+        <collection id="taskTemplatesDc"
+                    class="com.company.lifegame.entity.TaskTemplate">
             <fetchPlan extends="_base"/>
-            <loader id="tasksDl">
+            <loader id="taskTemplatesDl">
                 <query>
-                    <![CDATA[select e from lg_Task e]]>
+                    <![CDATA[select e from lg_TaskTemplate e]]>
                 </query>
             </loader>
         </collection>
@@ -30,20 +30,14 @@
     </actions>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="tasksTable" spacing="true">
+    <layout expand="taskTemplatesTable" spacing="true">
         <filter id="filter"
-                dataLoader="tasksDl" collapsed="true">
+                dataLoader="taskTemplatesDl">
             <properties include=".*"/>
-            <configurations>
-                <configuration name="" id="defaultConfiguration" default="true">
-                    <propertyFilter property="archive" operation="EQUAL" operationEditable="true" defaultValue="false"/>
-                </configuration>
-            </configurations>
         </filter>
-        <treeTable id="tasksTable"
-                   width="100%"
-                   dataContainer="tasksDc"
-                   hierarchyProperty="parent">
+        <groupTable id="taskTemplatesTable"
+                    width="100%"
+                    dataContainer="taskTemplatesDc">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
@@ -51,18 +45,23 @@
             </actions>
             <columns>
                 <column id="name"/>
-                <column id="status"/>
+                <column id="active"/>
+                <column id="monday"/>
+                <column id="tuesday"/>
+                <column id="wednesday"/>
+                <column id="thursday"/>
+                <column id="friday"/>
+                <column id="saturday"/>
+                <column id="sunday"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
-                <button id="createBtn" action="tasksTable.create"/>
-                <button id="editBtn" action="tasksTable.edit"/>
-                <button id="removeBtn" action="tasksTable.remove"/>
-                <button id="doneBtn" icon="OK" enable="false" description="msg://taskBrowse.doneBtn.description"/>
-                <button id="todoBtn" icon="CHECK_SQUARE_O" enable="false" description="msg://taskBrowse.todoBtn.description"/>
+                <button id="createBtn" action="taskTemplatesTable.create"/>
+                <button id="editBtn" action="taskTemplatesTable.edit"/>
+                <button id="removeBtn" action="taskTemplatesTable.remove"/>
             </buttonsPanel>
-        </treeTable>
+        </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">
             <button action="lookupSelectAction"/>
             <button action="lookupCancelAction"/>

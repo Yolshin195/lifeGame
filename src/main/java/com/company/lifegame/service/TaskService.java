@@ -17,6 +17,13 @@ public class TaskService {
         dataManager.save(task);
     }
 
+    public void doneAndArchive(Task task) {
+        task.setTodo(false);
+        task.setArchive(true);
+        task.setStatus(TaskStatus.DONE);
+        dataManager.save(task);
+    }
+
     public void cancel(Task task) {
         task.setTodo(false);
         task.setStatus(TaskStatus.CANCELED);

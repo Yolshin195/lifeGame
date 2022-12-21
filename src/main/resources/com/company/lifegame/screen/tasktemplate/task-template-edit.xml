@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        caption="msg://taskTemplateEdit.caption"
+        focusComponent="form">
+    <data>
+        <instance id="taskTemplateDc"
+                  class="com.company.lifegame.entity.TaskTemplate">
+            <fetchPlan extends="_base">
+                <property name="parentTask" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <actions>
+        <action id="windowCommitAndClose" caption="msg:///actions.Ok"
+                icon="EDITOR_OK"
+                primary="true"
+                shortcut="${COMMIT_SHORTCUT}"/>
+        <action id="windowClose"
+                caption="msg:///actions.Close"
+                icon="EDITOR_CANCEL"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout spacing="true" expand="scrollBox">
+        <scrollBox id="scrollBox" spacing="true">
+            <form id="form" dataContainer="taskTemplateDc">
+                <column width="350px">
+                    <entityPicker id="parentTaskField" property="parentTask">
+                        <actions>
+                            <action id="entityLookup" type="entity_lookup"/>
+                            <action id="entityClear" type="entity_clear"/>
+                        </actions>
+                    </entityPicker>
+                    <textField id="nameField" property="name"/>
+                    <textField id="descriptionField" property="description"/>
+                    <checkBox id="activeField" property="active"/>
+                    <checkBox id="mondayField" property="monday"/>
+                    <checkBox id="tuesdayField" property="tuesday"/>
+                    <checkBox id="wednesdayField" property="wednesday"/>
+                    <checkBox id="thursdayField" property="thursday"/>
+                    <checkBox id="fridayField" property="friday"/>
+                    <checkBox id="saturdayField" property="saturday"/>
+                    <checkBox id="sundayField" property="sunday"/>
+                </column>
+            </form>
+        </scrollBox>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>
