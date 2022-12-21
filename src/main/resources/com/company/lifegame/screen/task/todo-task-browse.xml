@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
         xmlns:c="http://jmix.io/schema/ui/jpql-condition"
-        caption="msg://taskBrowse.caption"
+        caption="msg://toDoTaskBrowse.caption"
         focusComponent="tasksTable">
     <data readOnly="true">
         <collection id="tasksDc"
@@ -9,7 +9,7 @@
             <fetchPlan extends="_base"/>
             <loader id="tasksDl">
                 <query>
-                    <![CDATA[select e from lg_Task e]]>
+                    <![CDATA[select e from lg_Task e where e.status <> 'Done' and e.status <> 'Canceled' and  e.archive = false and e.todo = true]]>
                 </query>
             </loader>
         </collection>
@@ -35,29 +35,23 @@
                 dataLoader="tasksDl">
             <properties include=".*"/>
         </filter>
-        <treeTable id="tasksTable"
-                   width="100%"
-                   dataContainer="tasksDc"
-                   hierarchyProperty="parent">
+        <groupTable id="tasksTable"
+                    width="100%"
+                    dataContainer="tasksDc">
             <actions>
-                <action id="create" type="create"/>
-                <action id="edit" type="edit"/>
-                <action id="remove" type="remove"/>
+                <action id="add" type="add"/>
             </actions>
             <columns>
                 <column id="name"/>
-                <column id="status"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
-                <button id="createBtn" action="tasksTable.create"/>
-                <button id="editBtn" action="tasksTable.edit"/>
-                <button id="removeBtn" action="tasksTable.remove"/>
-                <button id="doneBtn" icon="OK" enable="false" description="msg://taskBrowse.doneBtn.description"/>
-                <button id="todoBtn" icon="CHECK_SQUARE_O" enable="false" description="msg://taskBrowse.todoBtn.description"/>
+                <button id="addBtn" action="tasksTable.add"/>
+                <button id="doneBtn" icon="OK"/>
+                <button id="cancelBtn" icon="CANCEL"/>
             </buttonsPanel>
-        </treeTable>
+        </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">
             <button action="lookupSelectAction"/>
             <button action="lookupCancelAction"/>
