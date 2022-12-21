@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.11.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="lg">
+        <createTable tableName="LG_SKILL_REFERENCE">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_LG_SKILL_REFERENCE"/>
+            </column>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="CREATED_DATE" type="DATETIME"/>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_DATE" type="DATETIME"/>
+            <column name="DELETED_BY" type="VARCHAR(255)"/>
+            <column name="DELETED_DATE" type="DATETIME"/>
+            <column name="CODE" type="VARCHAR(255)"/>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="DESCRIPTION" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="lg">
+        <createTable tableName="LG_TASK_SKILL_REFERENCE_LINK">
+            <column name="SKILL_REFERENCE_ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_LG_TASK_SKILL_REFERENCE_LINK"/>
+            </column>
+            <column name="TASK_ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_LG_TASK_SKILL_REFERENCE_LINK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="lg">
+        <createTable tableName="LG_TASK_TEMPLATE">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_LG_TASK_TEMPLATE"/>
+            </column>
+            <column name="DELETED_BY" type="VARCHAR(255)"/>
+            <column name="DELETED_DATE" type="DATETIME"/>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_DATE" type="DATETIME"/>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="CREATED_DATE" type="DATETIME"/>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TITLE" type="VARCHAR(255)"/>
+            <column name="DESCRIPTION" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="4" author="lg">
+        <createTable tableName="LG_USER_SKILL">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_LG_USER_SKILL"/>
+            </column>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="CREATED_DATE" type="DATETIME"/>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_DATE" type="DATETIME"/>
+            <column name="DELETED_BY" type="VARCHAR(255)"/>
+            <column name="DELETED_DATE" type="DATETIME"/>
+            <column name="SKILL_ID" type="UUID"/>
+            <column name="LEVEL_" type="INT"/>
+            <column name="EXPERIENCE" type="INT"/>
+            <column name="COMPLETED_TASKS" type="INT"/>
+            <column name="TOTAL_TIME" type="BIGINT"/>
+            <column name="CURRENT_" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="5" author="lg">
+        <createIndex indexName="IDX_LG_USER_SKILL_SKILL" tableName="LG_USER_SKILL">
+            <column name="SKILL_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="SKILL_ID" baseTableName="LG_USER_SKILL"
+                                 constraintName="FK_LG_USER_SKILL_ON_SKILL" referencedColumnNames="ID"
+                                 referencedTableName="LG_SKILL_REFERENCE"/>
+    </changeSet>
+    <changeSet id="6" author="lg" dbms="postgresql">
+        <createIndex indexName="IDX_LG_USER_SKILL_UNQ" tableName="LG_USER_SKILL" unique="true">
+            <column name="SKILL_ID"/>
+            <column name="CREATED_BY"/>
+        </createIndex>
+
+        <modifySql>
+            <append value="where DELETED_DATE is null"/>
+        </modifySql>
+    </changeSet>
+    <changeSet id="7" author="lg">
+        <addForeignKeyConstraint baseColumnNames="SKILL_REFERENCE_ID" baseTableName="LG_TASK_SKILL_REFERENCE_LINK"
+                                 constraintName="FK_LGTASSKIREF_ON_SKILL_REFERENCE" referencedColumnNames="ID"
+                                 referencedTableName="LG_SKILL_REFERENCE"/>
+    </changeSet>
+    <changeSet id="8" author="lg">
+        <addForeignKeyConstraint baseColumnNames="TASK_ID" baseTableName="LG_TASK_SKILL_REFERENCE_LINK"
+                                 constraintName="FK_LGTASSKIREF_ON_TASK" referencedColumnNames="ID"
+                                 referencedTableName="LG_TASK"/>
+    </changeSet>
+    <changeSet id="9" author="lg">
+        <dropTable cascadeConstraints="true" tableName="lg_skill"/>
+    </changeSet>
+</databaseChangeLog>

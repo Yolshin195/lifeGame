@@ -74,6 +74,28 @@ public class Task {
     @OneToMany(mappedBy = "task")
     private List<TaskTimer> timerList;
 
+    @Column(name = "ARCHIVE")
+    private Boolean archive = false;
+
+    @Column(name = "TODO")
+    private Boolean todo = false;
+
+    public Boolean getTodo() {
+        return todo;
+    }
+
+    public void setTodo(Boolean todo) {
+        this.todo = todo;
+    }
+
+    public Boolean getArchive() {
+        return archive;
+    }
+
+    public void setArchive(Boolean archive) {
+        this.archive = archive;
+    }
+
     public List<TaskTimer> getTimerList() {
         return timerList;
     }
