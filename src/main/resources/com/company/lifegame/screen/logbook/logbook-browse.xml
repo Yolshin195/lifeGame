@@ -42,6 +42,7 @@
                         <action id="remove" type="remove"/>
                     </actions>
                     <columns>
+                        <column id="createdDate"/>
                         <column id="name"/>
                     </columns>
                     <simplePagination/>
