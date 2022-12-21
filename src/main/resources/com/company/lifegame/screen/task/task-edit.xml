@@ -26,23 +26,39 @@
     </actions>
     <dialogMode height="600"
                 width="800"/>
-    <layout spacing="true" expand="scrollBox">
-        <scrollBox id="scrollBox" spacing="true">
-            <form id="form" dataContainer="taskDc">
-                <column width="350px">
-                    <entityPicker id="parentField" property="parent">
-                        <actions>
-                            <action id="entityLookup" type="entity_lookup"/>
-                            <action id="entityClear" type="entity_clear"/>
-                        </actions>
-                    </entityPicker>
-                    <comboBox id="statusField" property="status"/>
-                    <textField id="nameField" property="name"/>
-                    <resizableTextArea resizableDirection="VERTICAL" id="descriptionField" property="description"/>
-                    <buttonsPanel id="timerButtonsPanel" caption="msg://com.company.lifegame.screen.task/taskEdit.timerButtonsPanel" visible="false"/>
-                </column>
-            </form>
-        </scrollBox>
+    <layout spacing="true" expand="tabSheet">
+        <tabSheet id="tabSheet">
+            <tab id="taskTab" caption="msg://taskEdit.taskTab">
+                <scrollBox id="taskScrollBox" spacing="true">
+                    <form id="form" dataContainer="taskDc">
+                        <column width="350px">
+                            <entityPicker id="parentField" property="parent">
+                                <actions>
+                                    <action id="entityLookup" type="entity_lookup"/>
+                                    <action id="entityClear" type="entity_clear"/>
+                                </actions>
+                            </entityPicker>
+                            <comboBox id="statusField" property="status"/>
+                            <textField id="nameField" property="name"/>
+                            <resizableTextArea resizableDirection="VERTICAL" id="descriptionField" property="description"/>
+                            <buttonsPanel id="timerButtonsPanel"
+                                          caption="msg://com.company.lifegame.screen.task/taskEdit.timerButtonsPanel"
+                                          visible="false"/>
+                        </column>
+                    </form>
+                </scrollBox>
+            </tab>
+            <tab id="taskSettingsTab" caption="msg://taskEdit.taskSettingsTab">
+                <scrollBox id="taskSettingsScrollBox" spacing="true">
+                    <form id="settingsForm" dataContainer="taskDc">
+                        <column width="350px">
+                            <checkBox id="todoField" property="todo"/>
+                            <checkBox id="archiveField" property="archive"/>
+                        </column>
+                    </form>
+                </scrollBox>
+            </tab>
+        </tabSheet>
         <hbox id="editActions" spacing="true">
             <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
             <button id="closeBtn" action="windowClose"/>
