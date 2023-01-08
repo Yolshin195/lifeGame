@@ -26,6 +26,7 @@ public class TaskService {
 
     public void cancel(Task task) {
         task.setTodo(false);
+        task.setArchive(true);
         task.setStatus(TaskStatus.CANCELED);
         dataManager.save(task);
     }

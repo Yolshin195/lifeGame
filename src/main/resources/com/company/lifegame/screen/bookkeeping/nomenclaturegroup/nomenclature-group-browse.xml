@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        xmlns:c="http://jmix.io/schema/ui/jpql-condition"
+        caption="msg://nomenclatureGroupBrowse.caption"
+        focusComponent="nomenclatureGroupsTable">
+    <data readOnly="true">
+        <collection id="nomenclatureGroupsDc"
+                    class="com.company.lifegame.entity.bookkeeping.NomenclatureGroup">
+            <fetchPlan extends="_base"/>
+            <loader id="nomenclatureGroupsDl">
+                <query>
+                    <![CDATA[select e from lg_NomenclatureGroup e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <actions>
+        <action id="lookupSelectAction"
+                caption="msg:///actions.Select"
+                icon="LOOKUP_OK"
+                primary="true"
+                shortcut="${COMMIT_SHORTCUT}"/>
+        <action id="lookupCancelAction"
+                caption="msg:///actions.Cancel"
+                icon="LOOKUP_CANCEL"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="nomenclatureGroupsTable" spacing="true">
+        <filter id="filter"
+                dataLoader="nomenclatureGroupsDl">
+            <properties include=".*"/>
+        </filter>
+        <treeDataGrid id="nomenclatureGroupsTable"
+                      width="100%"
+                      dataContainer="nomenclatureGroupsDc"
+                      hierarchyProperty="parent">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column property="name" id="name"/>
+            </columns>
+            <simplePagination/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="nomenclatureGroupsTable.create"/>
+                <button id="editBtn" action="nomenclatureGroupsTable.edit"/>
+                <button id="removeBtn" action="nomenclatureGroupsTable.remove"/>
+            </buttonsPanel>
+        </treeDataGrid>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

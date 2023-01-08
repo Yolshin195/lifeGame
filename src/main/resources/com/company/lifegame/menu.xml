@@ -13,4 +13,21 @@
               caption="msg://com.company.lifegame.screen.tasktemplate/taskTemplateBrowse.menu"/>
     </menu>
 
+    <menu id="bookkeeping" insertBefore="application" caption="msg://com.company.lifegame/menu.bookkeeping">
+        <item screen="lg_Nomenclature.browse"
+              caption="msg://com.company.lifegame.screen.bookkeeping.nomenclature/nomenclatureBrowse.menu"/>
+        <item screen="lg_Provider.browse"
+              caption="msg://com.company.lifegame.screen.bookkeeping.provider/providerBrowse.menu"/>
+        <item screen="lg_ProviderItem.browse"
+              caption="msg://com.company.lifegame.screen.bookkeeping.provideritem/providerItemBrowse.menu"/>
+        <item screen="lg_Price.browse" caption="msg://com.company.lifegame.screen.bookkeeping.price/priceBrowse.menu"/>
+        <item screen="lg_OrderItem.browse"
+              caption="msg://com.company.lifegame.screen.bookkeeping.orderitem/orderItemBrowse.menu"/>
+        <item screen="lg_Order.browse" caption="msg://com.company.lifegame.screen.bookkeeping.order/orderBrowse.menu"/>
+        <item screen="lg_Currency.browse"
+              caption="msg://com.company.lifegame.screen.bookkeeping.currency/currencyBrowse.menu"/>
+        <item screen="lg_NomenclatureGroup.browse"
+              caption="msg://com.company.lifegame.screen.bookkeeping.nomenclaturegroup/nomenclatureGroupBrowse.menu"/>
+    </menu>
+
 </menu-config>

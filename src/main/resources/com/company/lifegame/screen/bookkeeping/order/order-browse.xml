@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        xmlns:c="http://jmix.io/schema/ui/jpql-condition"
+        caption="msg://orderBrowse.caption"
+        focusComponent="ordersTable">
+    <data readOnly="true">
+        <collection id="ordersDc"
+                    class="com.company.lifegame.entity.bookkeeping.Order">
+            <fetchPlan extends="_base">
+                <property name="provider" fetchPlan="_base"/>
+                <property name="orderItems" fetchPlan="_base">
+                    <property name="providerItem" fetchPlan="_base">
+                        <property name="nomenclature" fetchPlan="_base"/>
+                    </property>
+                    <property name="price" fetchPlan="_base"/>
+                </property>
+                <property name="currency" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="ordersDl">
+                <query>
+                    <![CDATA[select e from lg_Order e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <actions>
+        <action id="lookupSelectAction"
+                caption="msg:///actions.Select"
+                icon="LOOKUP_OK"
+                primary="true"
+                shortcut="${COMMIT_SHORTCUT}"/>
+        <action id="lookupCancelAction"
+                caption="msg:///actions.Cancel"
+                icon="LOOKUP_CANCEL"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="ordersTable" spacing="true">
+        <filter id="filter"
+                dataLoader="ordersDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="ordersTable"
+                    width="100%"
+                    aggregatable="true"
+                    dataContainer="ordersDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <group>
+                    <column id="year"/>
+                    <column id="month"/>
+                    <column id="day"/>
+                </group>
+                <column id="provider"/>
+                <column id="currency"/>
+                <column id="value">
+                    <aggregation type="SUM"/>
+                </column>
+            </columns>
+            <simplePagination/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="ordersTable.create"/>
+                <button id="editBtn" action="ordersTable.edit"/>
+                <button id="removeBtn" action="ordersTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>
