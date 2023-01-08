@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        caption="msg://providerEdit.caption"
+        focusComponent="form">
+    <data>
+        <instance id="providerDc"
+                  class="com.company.lifegame.entity.bookkeeping.Provider">
+            <fetchPlan extends="_base">
+                <property name="providerItems" fetchPlan="_base">
+                    <property name="nomenclature" fetchPlan="_base"/>
+                </property>
+                <property name="currency" fetchPlan="_base"/>
+            </fetchPlan>
+            <collection id="providerItemsDc" property="providerItems"/>
+            <loader/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <actions>
+        <action id="windowCommitAndClose" caption="msg:///actions.Ok"
+                icon="EDITOR_OK"
+                primary="true"
+                shortcut="${COMMIT_SHORTCUT}"/>
+        <action id="windowClose"
+                caption="msg:///actions.Close"
+                icon="EDITOR_CANCEL"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout spacing="true" expand="editActions">
+        <form id="form" dataContainer="providerDc">
+            <column width="350px">
+                <textField id="nameField" property="name"/>
+                <entityPicker id="currencyField" property="currency"/>
+            </column>
+        </form>
+        <groupBox id="providerItemsGroupBox" caption="Номенклатура">
+            <dataGrid id="providerItemsTable" dataContainer="providerItemsDc" width="100%">
+                <actions>
+                    <action id="create" type="create"/>
+                    <action id="remove" type="remove"/>
+                </actions>
+                <columns>
+                    <column id="nomenclature" property="nomenclature"/>
+                </columns>
+                <buttonsPanel>
+                    <button action="providerItemsTable.create"/>
+                    <button action="providerItemsTable.remove"/>
+                </buttonsPanel>
+            </dataGrid>
+        </groupBox>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

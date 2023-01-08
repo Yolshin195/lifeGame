@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        caption="msg://orderEdit.caption"
+        focusComponent="form">
+    <data>
+        <instance id="orderDc"
+                  class="com.company.lifegame.entity.bookkeeping.Order">
+            <fetchPlan extends="_base">
+                <property name="provider" fetchPlan="_base"/>
+                <property name="orderItems" fetchPlan="_base">
+                    <property name="providerItem" fetchPlan="_base">
+                        <property name="nomenclature" fetchPlan="_base"/>
+                    </property>
+                    <property name="price" fetchPlan="_base"/>
+                </property>
+                <property name="currency" fetchPlan="_base"/>
+            </fetchPlan>
+            <collection id="orderItemsDc" property="orderItems"/>
+            <loader/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <actions>
+        <action id="windowCommitAndClose" caption="msg:///actions.Ok"
+                icon="EDITOR_OK"
+                primary="true"
+                shortcut="${COMMIT_SHORTCUT}"/>
+        <action id="windowClose"
+                caption="msg:///actions.Close"
+                icon="EDITOR_CANCEL"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout spacing="true" expand="editActions">
+        <form id="form" dataContainer="orderDc">
+            <column width="350px">
+                <entityPicker id="providerField" property="provider">
+                    <actions>
+                        <action id="entityLookup" type="entity_lookup"/>
+                        <action id="entityClear" type="entity_clear"/>
+                    </actions>
+                </entityPicker>
+                <entityPicker id="currencyField" property="currency"/>
+                <textField id="valueField" property="value"/>
+                <dateField id="dateField" property="date"/>
+            </column>
+        </form>
+        <groupBox id="orderItemsGroupBox" caption="Номенклатура">
+            <dataGrid id="orderItemsTable" dataContainer="orderItemsDc" width="100%">
+                <actions>
+                    <action id="create" type="create"/>
+                    <action id="remove" type="remove"/>
+                </actions>
+                <columns>
+                    <column id="nomenclature" property="providerItem"/>
+                    <column id="price" property="price"/>
+                    <column id="amount" property="amount"/>
+                    <column id="value" property="value"/>
+                </columns>
+                <buttonsPanel>
+                    <button action="orderItemsTable.create"/>
+                    <button action="orderItemsTable.remove"/>
+                </buttonsPanel>
+            </dataGrid>
+        </groupBox>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

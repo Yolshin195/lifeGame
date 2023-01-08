@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.11.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="lg">
+        <createTable tableName="LG_CURRENCY">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_LG_CURRENCY"/>
+            </column>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="CREATED_DATE" type="DATETIME"/>
+            <column name="DELETED_BY" type="VARCHAR(255)"/>
+            <column name="DELETED_DATE" type="DATETIME"/>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_DATE" type="DATETIME"/>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="SHORT_NAME" type="VARCHAR(10)"/>
+            <column name="CODE" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="lg">
+        <addColumn tableName="LG_PRICE">
+            <column name="CURRENCY_ID" type="UUID"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="3" author="lg">
+        <addColumn tableName="LG_ORDER">
+            <column name="CURRENCY_ID" type="UUID"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="4" author="lg">
+        <insert tableName="LG_CURRENCY">
+            <column name="ID" value="f388caf8-f3fe-4af8-9cc9-e6b5b7857154"/>
+            <column name="CREATED_DATE" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="CREATED_BY" value="admin"/>
+            <column name="VERSION" value="1"/>
+            <column name="CODE" value="643"/>
+            <column name="NAME" value="Рубль"/>
+            <column name="SHORT_NAME" value="RUB"/>
+        </insert>
+        <insert tableName="LG_CURRENCY">
+            <column name="ID" value="e62695f9-8bfd-43a1-be54-6b81158c8c3d"/>
+            <column name="CREATED_DATE" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="CREATED_BY" value="admin"/>
+            <column name="VERSION" value="1"/>
+            <column name="CODE" value="840"/>
+            <column name="NAME" value="Долар США"/>
+            <column name="SHORT_NAME" value="USD"/>
+        </insert>
+        <insert tableName="LG_CURRENCY">
+            <column name="ID" value="195fae05-d35a-499b-af96-782626cf9b4b"/>
+            <column name="CREATED_DATE" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="CREATED_BY" value="admin"/>
+            <column name="VERSION" value="1"/>
+            <column name="CODE" value="704"/>
+            <column name="NAME" value="Донг"/>
+            <column name="SHORT_NAME" value="VND"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

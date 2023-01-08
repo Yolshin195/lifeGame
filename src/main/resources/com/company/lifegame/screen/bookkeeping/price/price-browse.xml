@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        xmlns:c="http://jmix.io/schema/ui/jpql-condition"
+        caption="msg://priceBrowse.caption"
+        focusComponent="pricesTable">
+    <data readOnly="true">
+        <collection id="pricesDc"
+                    class="com.company.lifegame.entity.bookkeeping.Price">
+            <fetchPlan extends="_base">
+                <property name="provider" fetchPlan="_base"/>
+                <property name="providerItem" fetchPlan="_base"/>
+                <property name="currency" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="pricesDl">
+                <query>
+                    <![CDATA[select e from lg_Price e]]>
+                    <condition>
+                        <and>
+                            <c:jpql>
+                                <c:where>e.provider = :provider</c:where>
+                            </c:jpql>
+                            <c:jpql>
+                                <c:where>e.providerItem = :providerItem</c:where>
+                            </c:jpql>
+                            <c:jpql>
+                                <c:where>e.current = :current</c:where>
+                            </c:jpql>
+                        </and>
+                    </condition>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <actions>
+        <action id="lookupSelectAction"
+                caption="msg:///actions.Select"
+                icon="LOOKUP_OK"
+                primary="true"
+                shortcut="${COMMIT_SHORTCUT}"/>
+        <action id="lookupCancelAction"
+                caption="msg:///actions.Cancel"
+                icon="LOOKUP_CANCEL"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="pricesTable" spacing="true">
+        <filter id="filter"
+                dataLoader="pricesDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="pricesTable"
+                    width="100%"
+                    dataContainer="pricesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="provider"/>
+                <column id="providerItem"/>
+                <column id="value"/>
+                <column id="current"/>
+                <column id="currency"/>
+            </columns>
+            <simplePagination/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="pricesTable.create"/>
+                <button id="editBtn" action="pricesTable.edit"/>
+                <button id="removeBtn" action="pricesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>
