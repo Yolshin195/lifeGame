@@ -28,6 +28,7 @@
               caption="msg://com.company.lifegame.screen.bookkeeping.currency/currencyBrowse.menu"/>
         <item screen="lg_NomenclatureGroup.browse"
               caption="msg://com.company.lifegame.screen.bookkeeping.nomenclaturegroup/nomenclatureGroupBrowse.menu"/>
+        <item screen="lg_Rate.browse" caption="msg://com.company.lifegame.screen.bookkeeping.rate/rateBrowse.menu"/>
     </menu>
 
 </menu-config>

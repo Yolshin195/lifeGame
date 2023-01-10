@@ -51,6 +51,12 @@ public class Order {
     @Column(name = "VALUE_")
     private BigDecimal value;
 
+    @Column(name = "VALUE_USD")
+    private BigDecimal valueUSD;
+
+    @Column(name = "VALUE_RUB")
+    private BigDecimal valueRUB;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CURRENCY_ID")
     private Currency currency;
@@ -66,6 +72,22 @@ public class Order {
 
     @Column(name = "DAY_")
     private Integer day;
+
+    public void setValueRUB(BigDecimal valueRUB) {
+        this.valueRUB = valueRUB;
+    }
+
+    public BigDecimal getValueRUB() {
+        return valueRUB;
+    }
+
+    public void setValueUSD(BigDecimal valueUSD) {
+        this.valueUSD = valueUSD;
+    }
+
+    public BigDecimal getValueUSD() {
+        return valueUSD;
+    }
 
     public void setDay(Integer day) {
         this.day = day;

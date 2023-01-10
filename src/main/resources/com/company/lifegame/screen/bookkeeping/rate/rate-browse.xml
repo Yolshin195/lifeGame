@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
         xmlns:c="http://jmix.io/schema/ui/jpql-condition"
-        caption="msg://providerItemBrowse.caption"
-        focusComponent="providerItemsTable">
+        caption="msg://rateBrowse.caption"
+        focusComponent="ratesTable">
     <data readOnly="true">
-        <collection id="providerItemsDc"
-                    class="com.company.lifegame.entity.bookkeeping.ProviderItem">
+        <collection id="ratesDc"
+                    class="com.company.lifegame.entity.bookkeeping.Rate">
             <fetchPlan extends="_base">
-                <property name="provider" fetchPlan="_base"/>
-                <property name="nomenclature" fetchPlan="_base"/>
+                <property name="from"/>
+                <property name="to"/>
             </fetchPlan>
-            <loader id="providerItemsDl">
+            <loader id="ratesDl">
                 <query>
-                    <![CDATA[select e from lg_ProviderItem e]]>
-                    <condition>
-                        <c:jpql>
-                            <c:where>e.provider = :provider</c:where>
-                        </c:jpql>
-                    </condition>
+                    <![CDATA[select e from lg_Rate e]]>
                 </query>
             </loader>
         </collection>
@@ -38,30 +33,32 @@
     </actions>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="providerItemsTable" spacing="true">
+    <layout expand="ratesTable" spacing="true">
         <filter id="filter"
-                dataLoader="providerItemsDl">
+                dataLoader="ratesDl">
             <properties include=".*"/>
         </filter>
-        <groupTable id="providerItemsTable"
+        <groupTable id="ratesTable"
                     width="100%"
-                    dataContainer="providerItemsDc">
+                    dataContainer="ratesDc">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
-                <column id="provider"/>
-                <column id="nomenclature"/>
-                <column id="name"/>
+                <column id="date"/>
+                <column id="code"/>
+                <column id="from"/>
+                <column id="to"/>
+                <column id="value"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
-                <button id="createBtn" action="providerItemsTable.create"/>
-                <button id="editBtn" action="providerItemsTable.edit"/>
-                <button id="removeBtn" action="providerItemsTable.remove"/>
+                <button id="createBtn" action="ratesTable.create"/>
+                <button id="editBtn" action="ratesTable.edit"/>
+                <button id="removeBtn" action="ratesTable.remove"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">

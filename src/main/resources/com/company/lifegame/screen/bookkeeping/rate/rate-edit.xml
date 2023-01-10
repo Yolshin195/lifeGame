@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
-        caption="msg://nomenclatureEdit.caption"
+        caption="msg://rateEdit.caption"
         focusComponent="form">
     <data>
-        <instance id="nomenclatureDc"
-                  class="com.company.lifegame.entity.bookkeeping.Nomenclature">
+        <instance id="rateDc"
+                  class="com.company.lifegame.entity.bookkeeping.Rate">
             <fetchPlan extends="_base">
-                <property name="group" fetchPlan="_base"/>
-                <property name="parent" fetchPlan="_base"/>
+                <property name="from"/>
+                <property name="to"/>
             </fetchPlan>
             <loader/>
         </instance>
@@ -28,12 +28,13 @@
     <dialogMode height="600"
                 width="800"/>
     <layout spacing="true" expand="editActions">
-        <form id="form" dataContainer="nomenclatureDc">
+        <form id="form" dataContainer="rateDc">
             <column width="350px">
-                <entityPicker id="parentField" property="parent"/>
-                <textField id="nameField" property="name"/>
-                <comboBox id="unitField" property="unit"/>
-                <entityPicker id="groupField" property="group"/>
+                <textField id="codeField" property="code"/>
+                <entityPicker id="fromField" property="from"/>
+                <entityPicker id="toField" property="to"/>
+                <dateField id="dateField" property="date"/>
+                <textField id="valueField" property="value"/>
             </column>
         </form>
         <hbox id="editActions" spacing="true">
