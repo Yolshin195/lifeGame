@@ -37,6 +37,17 @@ public class ProviderItem {
     @JoinColumn(name = "NOMENCLATURE_ID")
     private Nomenclature nomenclature;
 
+    @Column(name = "NAME")
+    private String name;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public void setProvider(Provider provider) {
         this.provider = provider;
     }

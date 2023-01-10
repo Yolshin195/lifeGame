@@ -37,6 +37,7 @@
     <layout spacing="true" expand="editActions">
         <form id="form" dataContainer="orderDc">
             <column width="350px">
+                <dateField id="dateField" property="date"/>
                 <entityPicker id="providerField" property="provider">
                     <actions>
                         <action id="entityLookup" type="entity_lookup"/>
@@ -45,7 +46,8 @@
                 </entityPicker>
                 <entityPicker id="currencyField" property="currency"/>
                 <textField id="valueField" property="value"/>
-                <dateField id="dateField" property="date"/>
+                <currencyField id="valueUSDField" property="valueUSD" currency="$"/>
+                <currencyField id="valueRUBField" property="valueRUB" currency="₽"/>
             </column>
         </form>
         <groupBox id="orderItemsGroupBox" caption="Номенклатура">

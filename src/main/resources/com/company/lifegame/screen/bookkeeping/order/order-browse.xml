@@ -64,6 +64,12 @@
                 <column id="value">
                     <aggregation type="SUM"/>
                 </column>
+                <column id="valueUSD">
+                    <aggregation type="SUM"/>
+                </column>
+                <column id="valueRUB">
+                    <aggregation type="SUM"/>
+                </column>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.11.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="lg">
+        <createTable tableName="LG_RATE">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_LG_RATE"/>
+            </column>
+            <column name="DATE_" type="DATE"/>
+            <column name="CODE" type="VARCHAR(6)"/>
+            <column name="FROM_ID" type="UUID"/>
+            <column name="TO_ID" type="UUID"/>
+            <column name="VALUE_" type="DECIMAL"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

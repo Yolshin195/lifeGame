@@ -42,6 +42,7 @@
                         <action id="entityClear" type="entity_clear"/>
                     </actions>
                 </entityPicker>
+                <textField id="nameField" property="name"/>
             </column>
         </form>
         <hbox id="editActions" spacing="true">

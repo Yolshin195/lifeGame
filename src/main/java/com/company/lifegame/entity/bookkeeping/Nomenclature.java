@@ -55,6 +55,10 @@ public class Nomenclature {
     private Date deletedDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PARENT_ID")
+    private Nomenclature parent;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "GROUP_ID")
     private NomenclatureGroup group;
 
@@ -64,6 +68,14 @@ public class Nomenclature {
 
     @Column(name = "UNIT")
     private String unit;
+
+    public void setParent(Nomenclature parent) {
+        this.parent = parent;
+    }
+
+    public Nomenclature getParent() {
+        return parent;
+    }
 
     public void setGroup(NomenclatureGroup group) {
         this.group = group;
