@@ -37,9 +37,10 @@
                 dataLoader="nomenclaturesDl">
             <properties include=".*"/>
         </filter>
-        <groupTable id="nomenclaturesTable"
+        <treeTable id="nomenclaturesTable"
                     width="100%"
-                    dataContainer="nomenclaturesDc">
+                    dataContainer="nomenclaturesDc"
+                    hierarchyProperty="parent">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
@@ -56,7 +57,7 @@
                 <button id="editBtn" action="nomenclaturesTable.edit"/>
                 <button id="removeBtn" action="nomenclaturesTable.remove"/>
             </buttonsPanel>
-        </groupTable>
+        </treeTable>
         <hbox id="lookupActions" spacing="true" visible="false">
             <button action="lookupSelectAction"/>
             <button action="lookupCancelAction"/>
