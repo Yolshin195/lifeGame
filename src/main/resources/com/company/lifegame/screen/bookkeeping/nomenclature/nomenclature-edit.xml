@@ -34,6 +34,8 @@
                 <textField id="nameField" property="name"/>
                 <comboBox id="unitField" property="unit"/>
                 <entityPicker id="groupField" property="group"/>
+                <fileStorageUpload id="pictureField" property="picture"/>
+                <image property="picture"/>
             </column>
         </form>
         <hbox id="editActions" spacing="true">
