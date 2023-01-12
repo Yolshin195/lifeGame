@@ -38,9 +38,9 @@
             <properties include=".*"/>
         </filter>
         <treeTable id="nomenclaturesTable"
-                    width="100%"
-                    dataContainer="nomenclaturesDc"
-                    hierarchyProperty="parent">
+                   width="100%"
+                   dataContainer="nomenclaturesDc"
+                   hierarchyProperty="parent">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>

@@ -1,5 +1,6 @@
 package com.company.lifegame.entity.bookkeeping;
 
+import io.jmix.core.FileRef;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
@@ -68,6 +69,17 @@ public class Nomenclature {
 
     @Column(name = "UNIT")
     private String unit;
+
+    @Column(name = "PICTURE", length = 1024)
+    private FileRef picture;
+
+    public void setPicture(FileRef picture) {
+        this.picture = picture;
+    }
+
+    public FileRef getPicture() {
+        return picture;
+    }
 
     public void setParent(Nomenclature parent) {
         this.parent = parent;
