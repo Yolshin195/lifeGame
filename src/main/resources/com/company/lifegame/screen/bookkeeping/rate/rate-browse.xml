@@ -59,6 +59,7 @@
                 <button id="createBtn" action="ratesTable.create"/>
                 <button id="editBtn" action="ratesTable.edit"/>
                 <button id="removeBtn" action="ratesTable.remove"/>
+                <button id="uploadCurrentRateBtn" caption="Получить сегодняшний курс"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">
