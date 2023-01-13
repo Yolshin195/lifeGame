@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -37,22 +36,20 @@ public class RateService {
 
             log.info("createCurrentRUBVND: {}", value);
 
-            DecimalFormat df = new DecimalFormat();
-            df.setParseBigDecimal(true);
-            if (df.parse(value) instanceof BigDecimal v) {
-                Currency rub = getCurrency("RUB");
-                Currency vnd = getCurrency("VND");
 
-                Rate rubToVnd = dataManager.create(Rate.class);
-                rubToVnd.setValue(v);
-                rubToVnd.setCode(rub.getShortName() + vnd.getShortName());
-                rubToVnd.setFrom(rub);
-                rubToVnd.setTo(vnd);
-                rubToVnd.setDate(LocalDate.now());
-                rubToVnd = dataManager.save(rubToVnd);
+            Currency rub = getCurrency("RUB");
+            Currency vnd = getCurrency("VND");
 
-                log.info("Success createCurrentRUBVND: RUB to VND {} {}", rubToVnd.getValue(), rubToVnd.getDate());
-            }
+            Rate rubToVnd = dataManager.create(Rate.class);
+            rubToVnd.setValue(new BigDecimal(value.replace(",", ".")));
+            rubToVnd.setCode(rub.getShortName() + vnd.getShortName());
+            rubToVnd.setFrom(rub);
+            rubToVnd.setTo(vnd);
+            rubToVnd.setDate(LocalDate.now());
+            rubToVnd = dataManager.save(rubToVnd);
+
+            log.info("Success createCurrentRUBVND: RUB to VND {} {}", rubToVnd.getValue(), rubToVnd.getDate());
+
         } catch (Exception e) {
             log.info("Error createCurrentRUBVND: {}", e.getMessage());
             e.printStackTrace();
@@ -63,7 +60,7 @@ public class RateService {
     public BigDecimal convertToRUB(BigDecimal value, Currency from, LocalDateTime date) {
         if (date == null) return BigDecimal.ZERO;
 
-        return convertToRUB(value, from,  date.toLocalDate());
+        return convertToRUB(value, from, date.toLocalDate());
     }
 
     public BigDecimal convertToUSD(BigDecimal value, Currency from, LocalDateTime date) {
@@ -108,8 +105,8 @@ public class RateService {
 
         return dataManager.load(Rate.class)
                 .query("(e.code = :firstCode or e.code = :secondCode) and e.date = :date")
-                .parameter("firstCode", from+to)
-                .parameter("secondCode", to+from)
+                .parameter("firstCode", from + to)
+                .parameter("secondCode", to + from)
                 .parameter("date", date)
                 .optional();
     }
