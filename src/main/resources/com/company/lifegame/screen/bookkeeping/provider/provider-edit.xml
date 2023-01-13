@@ -12,7 +12,7 @@
                 <property name="currency" fetchPlan="_base"/>
             </fetchPlan>
             <collection id="providerItemsDc" property="providerItems"/>
-            <loader/>
+            <loader id="providerDl"/>
         </instance>
     </data>
     <facets>
@@ -35,6 +35,9 @@
             <column width="350px">
                 <textField id="nameField" property="name"/>
                 <entityPicker id="currencyField" property="currency"/>
+                <textField id="mapField" property="map"
+                           contextHelpTextHtmlEnabled="true"
+                           contextHelpText="msg://com.company.lifegame.screen.bookkeeping.provider/providerEdit.mapHelp"/>
             </column>
         </form>
         <groupBox id="providerItemsGroupBox" caption="Номенклатура">
@@ -52,6 +55,8 @@
                 </buttonsPanel>
             </dataGrid>
         </groupBox>
+        <htmlBox id="mapHtmlBox" width="600px" height="450px" htmlSanitizerEnabled="false">
+        </htmlBox>
         <hbox id="editActions" spacing="true">
             <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
             <button id="closeBtn" action="windowClose"/>

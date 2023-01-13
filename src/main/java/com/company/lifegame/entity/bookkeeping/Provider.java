@@ -66,6 +66,17 @@ public class Provider {
     @OneToMany(mappedBy = "provider")
     private List<ProviderItem> providerItems;
 
+    @Column(name = "MAP", length = 1024)
+    private String map;
+
+    public void setMap(String map) {
+        this.map = map;
+    }
+
+    public String getMap() {
+        return map;
+    }
+
     public void setCurrency(Currency currency) {
         this.currency = currency;
     }
