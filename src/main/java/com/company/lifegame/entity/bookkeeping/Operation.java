@@ -51,12 +51,14 @@ public class Operation {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ACCOUNT_ONE_ID")
     private Account accountOne;
+
     @Column(name = "VALUE_ONE")
     private BigDecimal valueOne;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ACCOUNT_TWO_ID")
     private Account accountTwo;
+
     @Column(name = "VALUE_TWO")
     private BigDecimal valueTwo;
 
