@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
         xmlns:c="http://jmix.io/schema/ui/jpql-condition"
-        caption="msg://nomenclatureBrowse.caption"
-        focusComponent="nomenclaturesTable">
+        caption="msg://categoryBrowse.caption"
+        focusComponent="categoriesTable">
     <data readOnly="true">
-        <collection id="nomenclaturesDc"
-                    class="com.company.lifegame.entity.bookkeeping.Nomenclature">
-            <fetchPlan extends="_base">
-                <property name="category" fetchPlan="_base"/>
-            </fetchPlan>
-            <loader id="nomenclaturesDl">
+        <collection id="categoriesDc"
+                    class="com.company.lifegame.entity.bookkeeping.Category">
+            <fetchPlan extends="_base"/>
+            <loader id="categoriesDl">
                 <query>
-                    <![CDATA[select e from lg_Nomenclature e]]>
+                    <![CDATA[select e from lg_Category e]]>
                 </query>
             </loader>
         </collection>
@@ -32,14 +30,14 @@
     </actions>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="nomenclaturesTable" spacing="true">
+    <layout expand="categoriesTable" spacing="true">
         <filter id="filter"
-                dataLoader="nomenclaturesDl">
+                dataLoader="categoriesDl">
             <properties include=".*"/>
         </filter>
-        <treeTable id="nomenclaturesTable"
+        <treeTable id="categoriesTable"
                    width="100%"
-                   dataContainer="nomenclaturesDc"
+                   dataContainer="categoriesDc"
                    hierarchyProperty="parent">
             <actions>
                 <action id="create" type="create"/>
@@ -48,14 +46,13 @@
             </actions>
             <columns>
                 <column id="name"/>
-                <column id="category"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
-                <button id="createBtn" action="nomenclaturesTable.create"/>
-                <button id="editBtn" action="nomenclaturesTable.edit"/>
-                <button id="removeBtn" action="nomenclaturesTable.remove"/>
+                <button id="createBtn" action="categoriesTable.create"/>
+                <button id="editBtn" action="categoriesTable.edit"/>
+                <button id="removeBtn" action="categoriesTable.remove"/>
             </buttonsPanel>
         </treeTable>
         <hbox id="lookupActions" spacing="true" visible="false">

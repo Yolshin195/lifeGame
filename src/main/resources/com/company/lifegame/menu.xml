@@ -26,9 +26,15 @@
         <item screen="lg_Order.browse" caption="msg://com.company.lifegame.screen.bookkeeping.order/orderBrowse.menu"/>
         <item screen="lg_Currency.browse"
               caption="msg://com.company.lifegame.screen.bookkeeping.currency/currencyBrowse.menu"/>
-        <item screen="lg_NomenclatureGroup.browse"
-              caption="msg://com.company.lifegame.screen.bookkeeping.nomenclaturegroup/nomenclatureGroupBrowse.menu"/>
         <item screen="lg_Rate.browse" caption="msg://com.company.lifegame.screen.bookkeeping.rate/rateBrowse.menu"/>
+        <item screen="lg_Category.browse"
+              caption="msg://com.company.lifegame.screen.bookkeeping.category/categoryBrowse.menu"/>
+        <item screen="lg_Account.browse"
+              caption="msg://com.company.lifegame.screen.bookkeeping.account/accountBrowse.menu"/>
+        <item screen="lg_Balance.browse"
+              caption="msg://com.company.lifegame.screen.bookkeeping.balance/balanceBrowse.menu"/>
+        <item screen="lg_Operation.browse"
+              caption="msg://com.company.lifegame.screen.bookkeeping.operation/operationBrowse.menu"/>
     </menu>
 
 </menu-config>

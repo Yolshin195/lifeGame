@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
         xmlns:c="http://jmix.io/schema/ui/jpql-condition"
-        caption="msg://nomenclatureBrowse.caption"
-        focusComponent="nomenclaturesTable">
+        caption="msg://balanceBrowse.caption"
+        focusComponent="balancesTable">
     <data readOnly="true">
-        <collection id="nomenclaturesDc"
-                    class="com.company.lifegame.entity.bookkeeping.Nomenclature">
+        <collection id="balancesDc"
+                    class="com.company.lifegame.entity.bookkeeping.Balance">
             <fetchPlan extends="_base">
-                <property name="category" fetchPlan="_base"/>
+                <property name="account" fetchPlan="_base"/>
             </fetchPlan>
-            <loader id="nomenclaturesDl">
+            <loader id="balancesDl">
                 <query>
-                    <![CDATA[select e from lg_Nomenclature e]]>
+                    <![CDATA[select e from lg_Balance e]]>
                 </query>
             </loader>
         </collection>
@@ -32,32 +32,32 @@
     </actions>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="nomenclaturesTable" spacing="true">
+    <layout expand="balancesTable" spacing="true">
         <filter id="filter"
-                dataLoader="nomenclaturesDl">
+                dataLoader="balancesDl">
             <properties include=".*"/>
         </filter>
-        <treeTable id="nomenclaturesTable"
-                   width="100%"
-                   dataContainer="nomenclaturesDc"
-                   hierarchyProperty="parent">
+        <groupTable id="balancesTable"
+                    width="100%"
+                    dataContainer="balancesDc">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
-                <column id="name"/>
-                <column id="category"/>
+                <column id="account"/>
+                <column id="date"/>
+                <column id="value"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
-                <button id="createBtn" action="nomenclaturesTable.create"/>
-                <button id="editBtn" action="nomenclaturesTable.edit"/>
-                <button id="removeBtn" action="nomenclaturesTable.remove"/>
+                <button id="createBtn" action="balancesTable.create"/>
+                <button id="editBtn" action="balancesTable.edit"/>
+                <button id="removeBtn" action="balancesTable.remove"/>
             </buttonsPanel>
-        </treeTable>
+        </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">
             <button action="lookupSelectAction"/>
             <button action="lookupCancelAction"/>

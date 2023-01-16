@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
         xmlns:c="http://jmix.io/schema/ui/jpql-condition"
-        caption="msg://nomenclatureGroupBrowse.caption"
-        focusComponent="nomenclatureGroupsTable">
+        caption="msg://operationBrowse.caption"
+        focusComponent="operationsTable">
     <data readOnly="true">
-        <collection id="nomenclatureGroupsDc"
-                    class="com.company.lifegame.entity.bookkeeping.NomenclatureGroup">
-            <fetchPlan extends="_base"/>
-            <loader id="nomenclatureGroupsDl">
+        <collection id="operationsDc"
+                    class="com.company.lifegame.entity.bookkeeping.Operation">
+            <fetchPlan extends="_base">
+                <property name="accountOne" fetchPlan="_base"/>
+                <property name="accountTwo" fetchPlan="_base"/>
+                <property name="category" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="operationsDl">
                 <query>
-                    <![CDATA[select e from lg_NomenclatureGroup e]]>
+                    <![CDATA[select e from lg_Operation e]]>
                 </query>
             </loader>
         </collection>
@@ -30,31 +34,37 @@
     </actions>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="nomenclatureGroupsTable" spacing="true">
+    <layout expand="operationsTable" spacing="true">
         <filter id="filter"
-                dataLoader="nomenclatureGroupsDl">
+                dataLoader="operationsDl">
             <properties include=".*"/>
         </filter>
-        <treeDataGrid id="nomenclatureGroupsTable"
-                      width="100%"
-                      dataContainer="nomenclatureGroupsDc"
-                      hierarchyProperty="parent">
+        <groupTable id="operationsTable"
+                    width="100%"
+                    dataContainer="operationsDc">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
-                <column property="name" id="name"/>
+                <column id="type"/>
+                <column id="date"/>
+                <column id="accountOne"/>
+                <column id="valueOne"/>
+                <column id="accountTwo"/>
+                <column id="valueTwo"/>
+                <column id="category"/>
+                <column id="comment"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
-                <button id="createBtn" action="nomenclatureGroupsTable.create"/>
-                <button id="editBtn" action="nomenclatureGroupsTable.edit"/>
-                <button id="removeBtn" action="nomenclatureGroupsTable.remove"/>
+                <button id="createBtn" action="operationsTable.create"/>
+                <button id="editBtn" action="operationsTable.edit"/>
+                <button id="removeBtn" action="operationsTable.remove"/>
             </buttonsPanel>
-        </treeDataGrid>
+        </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">
             <button action="lookupSelectAction"/>
             <button action="lookupCancelAction"/>

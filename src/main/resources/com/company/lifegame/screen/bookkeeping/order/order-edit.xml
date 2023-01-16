@@ -14,9 +14,11 @@
                     <property name="price" fetchPlan="_base"/>
                 </property>
                 <property name="currency" fetchPlan="_base"/>
+                <property name="account" fetchPlan="_base"/>
+                <property name="operation" fetchPlan="_base"/>
             </fetchPlan>
             <collection id="orderItemsDc" property="orderItems"/>
-            <loader/>
+            <loader id="orderDl"/>
         </instance>
     </data>
     <facets>
@@ -44,7 +46,13 @@
                         <action id="entityClear" type="entity_clear"/>
                     </actions>
                 </entityPicker>
-                <entityPicker id="currencyField" property="currency"/>
+                <entityPicker id="currencyField" property="currency" required="true"/>
+                <entityPicker id="accountField" property="account" required="true"/>
+                <entityPicker id="operationField" property="operation">
+                    <actions>
+                        <action id="entityOpen" type="entity_open"/>
+                    </actions>
+                </entityPicker>
                 <textField id="valueField" property="value"/>
                 <currencyField id="valueUSDField" property="valueUSD" currency="$"/>
                 <currencyField id="valueRUBField" property="valueRUB" currency="₽"/>
@@ -54,6 +62,7 @@
             <dataGrid id="orderItemsTable" dataContainer="orderItemsDc" width="100%">
                 <actions>
                     <action id="create" type="create"/>
+                    <action id="edit" type="edit"/>
                     <action id="remove" type="remove"/>
                 </actions>
                 <columns>
@@ -64,6 +73,7 @@
                 </columns>
                 <buttonsPanel>
                     <button action="orderItemsTable.create"/>
+                    <button action="orderItemsTable.edit"/>
                     <button action="orderItemsTable.remove"/>
                 </buttonsPanel>
             </dataGrid>
