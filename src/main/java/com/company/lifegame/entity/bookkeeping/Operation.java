@@ -1,8 +1,10 @@
 package com.company.lifegame.entity.bookkeeping;
 
+import io.jmix.core.Messages;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.metamodel.annotation.DependsOnProperties;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import org.springframework.data.annotation.CreatedBy;
@@ -44,7 +46,6 @@ public class Operation {
     @Column(name = "TYPE_")
     private String type;
 
-    @InstanceName
     @Column(name = "DATE_")
     private LocalDateTime date;
 
@@ -68,6 +69,16 @@ public class Operation {
 
     @Column(name = "COMMENT_")
     private String comment;
+
+    @InstanceName
+    @DependsOnProperties({"type", "accountOne", "valueOne", "accountTwo", "valueTwo"})
+    public String getDisplayName(Messages messages) {
+        return switch (getType()) {
+            case EXPENSE -> String.format("%s -%s", accountOne.getName(), valueOne);
+            case INCOME -> String.format("%s +%s", accountTwo.getName(), valueTwo);
+            case TRANSFER -> messages.formatMessage(getClass(), "Operation.instanceName.TRANSFER", valueOne, valueTwo);
+        };
+    }
 
     public String getCreatedBy() {
         return createdBy;
