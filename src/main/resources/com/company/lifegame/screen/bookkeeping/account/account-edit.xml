@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
-        caption="msg://nomenclatureEdit.caption"
+        caption="msg://accountEdit.caption"
         focusComponent="form">
     <data>
-        <instance id="nomenclatureDc"
-                  class="com.company.lifegame.entity.bookkeeping.Nomenclature">
+        <instance id="accountDc"
+                  class="com.company.lifegame.entity.bookkeeping.Account">
             <fetchPlan extends="_base">
-                <property name="category" fetchPlan="_base"/>
-                <property name="parent" fetchPlan="_base"/>
+                <property name="currency" fetchPlan="_base"/>
             </fetchPlan>
             <loader/>
         </instance>
@@ -28,14 +27,16 @@
     <dialogMode height="600"
                 width="800"/>
     <layout spacing="true" expand="editActions">
-        <form id="form" dataContainer="nomenclatureDc">
+        <form id="form" dataContainer="accountDc">
             <column width="350px">
-                <entityPicker id="parentField" property="parent"/>
                 <textField id="nameField" property="name"/>
-                <comboBox id="unitField" property="unit"/>
-                <entityPicker id="categoryField" property="category"/>
-                <fileStorageUpload id="pictureField" property="picture"/>
-                <image property="picture"/>
+                <entityPicker id="currencyField" property="currency">
+                    <actions>
+                        <action id="entityLookup" type="entity_lookup"/>
+                        <action id="entityClear" type="entity_clear"/>
+                    </actions>
+                </entityPicker>
+                <checkBox id="defaultValueField" property="defaultValue"/>
             </column>
         </form>
         <hbox id="editActions" spacing="true">

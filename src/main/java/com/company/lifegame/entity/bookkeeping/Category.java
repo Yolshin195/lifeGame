@@ -1,6 +1,5 @@
 package com.company.lifegame.entity.bookkeeping;
 
-import io.jmix.core.FileRef;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
@@ -16,9 +15,9 @@ import java.util.Date;
 import java.util.UUID;
 
 @JmixEntity
-@Table(name = "LG_NOMENCLATURE")
-@Entity(name = "lg_Nomenclature")
-public class Nomenclature {
+@Table(name = "LG_CATEGORY")
+@Entity(name = "lg_Category")
+public class Category {
     @JmixGeneratedValue
     @Column(name = "ID", nullable = false)
     @Id
@@ -57,52 +56,21 @@ public class Nomenclature {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PARENT_ID")
-    private Nomenclature parent;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CATEGORY_ID")
-    private Category category;
+    private Category parent;
 
     @InstanceName
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "UNIT")
-    private String unit;
+    @Column(name = "DESCRIPTION")
+    private String description;
 
-    @Column(name = "PICTURE", length = 1024)
-    private FileRef picture;
-
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setPicture(FileRef picture) {
-        this.picture = picture;
-    }
-
-    public FileRef getPicture() {
-        return picture;
-    }
-
-    public void setParent(Nomenclature parent) {
-        this.parent = parent;
-    }
-
-    public Nomenclature getParent() {
-        return parent;
-    }
-
-    public void setUnit(UnitEnum unit) {
-        this.unit = unit.getId();
-    }
-
-    public UnitEnum getUnit() {
-        return UnitEnum.fromId(unit);
+    public String getDescription() {
+        return description;
     }
 
     public void setName(String name) {
@@ -111,6 +79,14 @@ public class Nomenclature {
 
     public String getName() {
         return name;
+    }
+
+    public void setParent(Category parent) {
+        this.parent = parent;
+    }
+
+    public Category getParent() {
+        return parent;
     }
 
     public Date getDeletedDate() {

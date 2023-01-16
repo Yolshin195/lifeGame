@@ -1,6 +1,5 @@
 package com.company.lifegame.entity.bookkeeping;
 
-import io.jmix.core.FileRef;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
@@ -16,9 +15,9 @@ import java.util.Date;
 import java.util.UUID;
 
 @JmixEntity
-@Table(name = "LG_NOMENCLATURE")
-@Entity(name = "lg_Nomenclature")
-public class Nomenclature {
+@Table(name = "LG_ACCOUNT")
+@Entity(name = "lg_Account")
+public class Account {
     @JmixGeneratedValue
     @Column(name = "ID", nullable = false)
     @Id
@@ -56,53 +55,22 @@ public class Nomenclature {
     private Date deletedDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PARENT_ID")
-    private Nomenclature parent;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CATEGORY_ID")
-    private Category category;
+    @JoinColumn(name = "CURRENCY_ID")
+    private Currency currency;
 
     @InstanceName
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "UNIT")
-    private String unit;
+    @Column(name = "DEFAULT_VALUE")
+    private Boolean defaultValue;
 
-    @Column(name = "PICTURE", length = 1024)
-    private FileRef picture;
-
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setDefaultValue(Boolean defaultValue) {
+        this.defaultValue = defaultValue;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setPicture(FileRef picture) {
-        this.picture = picture;
-    }
-
-    public FileRef getPicture() {
-        return picture;
-    }
-
-    public void setParent(Nomenclature parent) {
-        this.parent = parent;
-    }
-
-    public Nomenclature getParent() {
-        return parent;
-    }
-
-    public void setUnit(UnitEnum unit) {
-        this.unit = unit.getId();
-    }
-
-    public UnitEnum getUnit() {
-        return UnitEnum.fromId(unit);
+    public Boolean getDefaultValue() {
+        return defaultValue;
     }
 
     public void setName(String name) {
@@ -111,6 +79,14 @@ public class Nomenclature {
 
     public String getName() {
         return name;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public Currency getCurrency() {
+        return currency;
     }
 
     public Date getDeletedDate() {

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
-        caption="msg://nomenclatureGroupEdit.caption"
+        caption="msg://balanceEdit.caption"
         focusComponent="form">
     <data>
-        <instance id="nomenclatureGroupDc"
-                  class="com.company.lifegame.entity.bookkeeping.NomenclatureGroup">
+        <instance id="balanceDc"
+                  class="com.company.lifegame.entity.bookkeeping.Balance">
             <fetchPlan extends="_base">
-                <property name="parent" fetchPlan="_base"/>
+                <property name="account" fetchPlan="_base"/>
             </fetchPlan>
             <loader/>
         </instance>
@@ -27,10 +27,17 @@
     <dialogMode height="600"
                 width="800"/>
     <layout spacing="true" expand="editActions">
-        <form id="form" dataContainer="nomenclatureGroupDc">
+        <form id="form" dataContainer="balanceDc">
             <column width="350px">
-                <textField id="nameField" property="name"/>
-                <entityPicker id="parentField" property="parent"/>
+                <entityPicker id="accountField" property="account">
+                    <actions>
+                        <action id="entityLookup" type="entity_lookup"/>
+                        <action id="entityClear" type="entity_clear"/>
+                    </actions>
+                </entityPicker>
+                <dateField id="dateField" property="date"/>
+                <textField id="valueField" property="value"/>
+                <checkBox id="currentField" property="current"/>
             </column>
         </form>
         <hbox id="editActions" spacing="true">

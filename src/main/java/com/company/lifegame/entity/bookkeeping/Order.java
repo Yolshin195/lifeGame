@@ -14,8 +14,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+// TODO Warning:(22, 14) Jmix: Missing InstanceName annotation
 @JmixEntity
-@Table(name = "LG_ORDER")
+@Table(name = "LG_ORDER", uniqueConstraints = {
+        @UniqueConstraint(name = "IDX_LG_ORDER_UNIQ_OPERATION", columnNames = "OPERATION_ID")
+})
 @Entity(name = "lg_Order")
 public class Order {
     @JmixGeneratedValue
@@ -41,6 +44,22 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
+    @Column(name = "DATE_")
+    private LocalDateTime date;
+
+    @Column(name = "YEAR_")
+    private Integer year;
+
+    @Column(name = "MONTH_")
+    private Integer month;
+
+    @Column(name = "DAY_")
+    private Integer day;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ACCOUNT_ID")
+    private Account account;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PROVIDER_ID")
     private Provider provider;
@@ -61,17 +80,25 @@ public class Order {
     @JoinColumn(name = "CURRENCY_ID")
     private Currency currency;
 
-    @Column(name = "DATE_")
-    private LocalDateTime date = LocalDateTime.now();
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "OPERATION_ID")
+    private Operation operation;
 
-    @Column(name = "YEAR_")
-    private Integer year;
+    public void setOperation(Operation operation) {
+        this.operation = operation;
+    }
 
-    @Column(name = "MONTH_")
-    private Integer month;
+    public Operation getOperation() {
+        return operation;
+    }
 
-    @Column(name = "DAY_")
-    private Integer day;
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
 
     public void setValueRUB(BigDecimal valueRUB) {
         this.valueRUB = valueRUB;

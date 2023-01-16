@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.11.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="lg">
+        <dropColumn tableName="LG_OPERATION" columnName="ORDER_ID"/>
+    </changeSet>
+    <changeSet id="2" author="lg">
+        <addColumn tableName="LG_ORDER">
+            <column name="OPERATION_ID" type="UUID"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="3" author="lg">
+        <createIndex indexName="IDX_LG_ORDER_UNIQ_OPERATION" tableName="LG_ORDER" unique="true">
+            <column name="OPERATION_ID"/>
+        </createIndex>
+
+        <modifySql>
+            <append value="where DELETED_DATE is null"/>
+        </modifySql>
+    </changeSet>
+</databaseChangeLog>
