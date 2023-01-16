@@ -3,6 +3,7 @@ package com.company.lifegame.entity.bookkeeping;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.metamodel.annotation.Composition;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import org.springframework.data.annotation.CreatedBy;
@@ -63,6 +64,7 @@ public class Provider {
     @JoinColumn(name = "CURRENCY_ID")
     private Currency currency;
 
+    @Composition
     @OneToMany(mappedBy = "provider")
     private List<ProviderItem> providerItems;
 

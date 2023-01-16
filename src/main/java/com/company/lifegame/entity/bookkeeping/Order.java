@@ -1,8 +1,11 @@
 package com.company.lifegame.entity.bookkeeping;
 
+import io.jmix.core.DeletePolicy;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.entity.annotation.OnDeleteInverse;
+import io.jmix.core.metamodel.annotation.Composition;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -64,6 +67,7 @@ public class Order {
     @JoinColumn(name = "PROVIDER_ID")
     private Provider provider;
 
+    @Composition
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems;
 
@@ -80,6 +84,7 @@ public class Order {
     @JoinColumn(name = "CURRENCY_ID")
     private Currency currency;
 
+    @OnDeleteInverse(DeletePolicy.UNLINK)
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "OPERATION_ID")
     private Operation operation;
