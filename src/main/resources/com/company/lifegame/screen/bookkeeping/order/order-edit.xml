@@ -46,8 +46,8 @@
                         <action id="entityClear" type="entity_clear"/>
                     </actions>
                 </entityPicker>
-                <entityPicker id="currencyField" property="currency" required="true"/>
-                <entityPicker id="accountField" property="account" required="true"/>
+                <entityPicker id="currencyField" property="currency"/>
+                <entityPicker id="accountField" property="account"/>
                 <entityPicker id="operationField" property="operation">
                     <actions>
                         <action id="entityOpen" type="entity_open"/>

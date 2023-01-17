@@ -5,6 +5,7 @@ import com.company.lifegame.service.DateService;
 import com.company.lifegame.service.bookkeeping.AccountService;
 import com.company.lifegame.service.bookkeeping.OperationService;
 import com.company.lifegame.service.bookkeeping.RateService;
+import io.jmix.ui.Notifications;
 import io.jmix.ui.action.BaseAction;
 import io.jmix.ui.component.*;
 import io.jmix.ui.icon.JmixIcon;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @UiController("lg_Order.edit")
 @UiDescriptor("order-edit.xml")
@@ -46,11 +48,17 @@ public class OrderEdit extends StandardEditor<Order> {
     private OperationService operationService;
     @Autowired
     private InstanceLoader<Order> orderDl;
+    @Autowired
+    private Notifications notifications;
+
+    @Subscribe
+    public void onInitEntity(InitEntityEvent<Order> event) {
+        event.getEntity().setDate(dateService.now());
+    }
 
     @Subscribe
     public void onBeforeShow(BeforeShowEvent event) {
         orderDl.load();
-        dateField.setValue(dateService.now());
 
         // Показываем кнопку создания операции, если к чеку ещё не превязанна операция
         if (operationField.getValue() == null) {
@@ -63,7 +71,11 @@ public class OrderEdit extends StandardEditor<Order> {
                             operationField.setValue(operationService.create(getEditedEntity()));
                             operationField.removeAction("entityCreate");
                         } else {
-
+                            notifications.create()
+                                    .withCaption("Ошибка создания операции")
+                                    .withDescription("Не обходимо заполнить поля: Счёт, Валюта, и сумаа чека не должна пыть пустой либо равной нулю.")
+                                    .withType(Notifications.NotificationType.HUMANIZED)
+                                    .show();
                         }
                     }), 0);
         }
@@ -78,8 +90,7 @@ public class OrderEdit extends StandardEditor<Order> {
 
     @Subscribe(id = "orderItemsDc", target = Target.DATA_CONTAINER)
     public void onOrderItemsDcCollectionChange(CollectionContainer.CollectionChangeEvent<OrderItem> event) {
-        // TODO Warning:(82, 53) Method invocation 'getItems' may produce 'NullPointerException'
-        BigDecimal sum = orderItemsTable.getItems().getItems()
+        BigDecimal sum = Objects.requireNonNull(orderItemsTable.getItems()).getItems()
                 .map(OrderItem::getValue)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
