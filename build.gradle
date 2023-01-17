@@ -26,7 +26,6 @@ dependencies {
     implementation 'io.jmix.ui:jmix-ui-starter'
     implementation 'io.jmix.ui:jmix-ui-data-starter'
     implementation 'io.jmix.ui:jmix-ui-themes-compiled'
-    implementation 'io.jmix.ui:jmix-ui-widgets-compiled'
     implementation 'io.jmix.security:jmix-security-starter'
     implementation 'io.jmix.security:jmix-security-ui-starter'
     implementation 'io.jmix.security:jmix-security-data-starter'
@@ -45,8 +44,19 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 
+    implementation 'io.jmix.ui:jmix-charts-starter'
+    widgets 'io.jmix.ui:jmix-ui-widgets'
+    widgets 'io.jmix.ui:jmix-charts-widgets'
+    implementation 'io.jmix.reports:jmix-reports-rest-starter'
+    implementation 'io.jmix.reports:jmix-reports-ui-starter'
+    implementation 'io.jmix.reports:jmix-reports-starter'
 }
 
 test {
     useJUnitPlatform()
+}
+
+compileWidgets {
+    generate "com.company.lifegame.widgets.CustomWidgetSet"
+    includePaths("**/io/jmix/**/widget/**", "**/com/company/lifegame/widgets/**")
 }
