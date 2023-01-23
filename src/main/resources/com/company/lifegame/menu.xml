@@ -35,6 +35,8 @@
               caption="msg://com.company.lifegame.screen.bookkeeping.balance/balanceBrowse.menu"/>
         <item screen="lg_Operation.browse"
               caption="msg://com.company.lifegame.screen.bookkeeping.operation/operationBrowse.menu"/>
+        <item screen="lg_OrderPicture.browse"
+              caption="msg://com.company.lifegame.screen.bookkeeping.orderpicture/orderPictureBrowse.menu"/>
     </menu>
 
 </menu-config>

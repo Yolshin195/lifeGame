@@ -30,26 +30,39 @@ dependencies {
     implementation 'io.jmix.security:jmix-security-ui-starter'
     implementation 'io.jmix.security:jmix-security-data-starter'
     implementation 'io.jmix.localfs:jmix-localfs-starter'
-    implementation 'io.jmix.datatools:jmix-datatools-starter'
-    implementation 'io.jmix.datatools:jmix-datatools-ui-starter'
-    implementation 'io.jmix.translations:jmix-translations-ru'
-    implementation 'io.jmix.quartz:jmix-quartz-starter'
 
     implementation 'org.postgresql:postgresql'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
 
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
+    // add-ons Data tools
+    implementation 'io.jmix.datatools:jmix-datatools-starter'
+    implementation 'io.jmix.datatools:jmix-datatools-ui-starter'
 
+    // add-ons Russian Translation
+    implementation 'io.jmix.translations:jmix-translations-ru'
+
+    // add-ons Quartz
+    implementation 'io.jmix.quartz:jmix-quartz-starter'
+
+    // add-ons Charts
     implementation 'io.jmix.ui:jmix-charts-starter'
     widgets 'io.jmix.ui:jmix-ui-widgets'
     widgets 'io.jmix.ui:jmix-charts-widgets'
+
+    // add-ons Reports
     implementation 'io.jmix.reports:jmix-reports-rest-starter'
     implementation 'io.jmix.reports:jmix-reports-ui-starter'
     implementation 'io.jmix.reports:jmix-reports-starter'
+
+    // add-ons REST Api
+    implementation 'io.jmix.security:jmix-security-oauth2-starter'
+    implementation 'io.jmix.rest:jmix-rest-starter'
+
+    //implementation 'net.sourceforge.tess4j:tess4j:5.5.0'
+    //implementation 'org.telegram:telegrambots:6.4.0'
+
 }
 
 test {
