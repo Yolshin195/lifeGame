@@ -50,11 +50,11 @@ public class BalanceService {
             Balance current = currentOptional.get();
             current.setCurrent(false);
 
-            balance.setValue(current.getValue().add(operation.getValueOne()));
+            balance.setValue(current.getValue().add(operation.getValueTwo()));
 
             dataManager.save(current, balance);
         } else {
-            balance.setValue(BigDecimal.ZERO.add(operation.getValueOne()));
+            balance.setValue(BigDecimal.ZERO.add(operation.getValueTwo()));
 
             dataManager.save(balance);
         }
