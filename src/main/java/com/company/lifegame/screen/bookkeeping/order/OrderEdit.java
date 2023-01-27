@@ -16,7 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @UiController("lg_Order.edit")
 @UiDescriptor("order-edit.xml")
@@ -50,6 +54,9 @@ public class OrderEdit extends StandardEditor<Order> {
     private InstanceLoader<Order> orderDl;
     @Autowired
     private Notifications notifications;
+
+    @Autowired
+    private EntityPicker<Category> categoryField;
 
     @Subscribe
     public void onInitEntity(InitEntityEvent<Order> event) {
@@ -90,14 +97,35 @@ public class OrderEdit extends StandardEditor<Order> {
 
     @Subscribe(id = "orderItemsDc", target = Target.DATA_CONTAINER)
     public void onOrderItemsDcCollectionChange(CollectionContainer.CollectionChangeEvent<OrderItem> event) {
-        BigDecimal sum = Objects.requireNonNull(orderItemsTable.getItems()).getItems()
-                .map(OrderItem::getValue)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        boolean valid = orderItemsTable.getItems() != null
+                && orderItemsTable.getItems().size() != 0;
 
-        valueField.setValue(sum);
+        if (valid) {
+            BigDecimal sum = orderItemsTable.getItems().getItems()
+                    .map(OrderItem::getValue)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        if (currencyField.getValue() != null) {
-            updateValueUSDAndRUB();
+            valueField.setValue(sum);
+
+            if (currencyField.getValue() != null) {
+                updateValueUSDAndRUB();
+            }
+
+            Map<Category, Long> categoryGroupsMap = orderItemsTable.getItems().getItems()
+                    .map(OrderItem::getProviderItem)
+                    .filter(Objects::nonNull)
+                    .map(ProviderItem::getNomenclature)
+                    .filter(Objects::nonNull)
+                    .filter(nomenclature -> nomenclature.getCategory() != null)
+                    .collect(Collectors.groupingBy(Nomenclature::getCategory, Collectors.counting()));
+
+            if (categoryGroupsMap.size() > 0) {
+                Category category = Collections
+                        .max(categoryGroupsMap.entrySet(), Comparator.comparingLong(Map.Entry::getValue))
+                        .getKey();
+
+                categoryField.setValue(category);
+            }
         }
     }
 

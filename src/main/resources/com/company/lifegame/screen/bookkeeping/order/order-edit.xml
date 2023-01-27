@@ -16,6 +16,7 @@
                 <property name="currency" fetchPlan="_base"/>
                 <property name="account" fetchPlan="_base"/>
                 <property name="operation" fetchPlan="_base"/>
+                <property name="category" fetchPlan="_base"/>
             </fetchPlan>
             <collection id="orderItemsDc" property="orderItems"/>
             <loader id="orderDl"/>
@@ -40,6 +41,7 @@
         <form id="form" dataContainer="orderDc">
             <column width="350px">
                 <dateField id="dateField" property="date"/>
+                <entityPicker id="categoryField" property="category"/>
                 <entityPicker id="providerField" property="provider">
                     <actions>
                         <action id="entityLookup" type="entity_lookup"/>
