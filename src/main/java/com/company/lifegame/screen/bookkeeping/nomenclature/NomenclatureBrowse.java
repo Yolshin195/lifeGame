@@ -1,12 +1,24 @@
 package com.company.lifegame.screen.bookkeeping.nomenclature;
 
-import io.jmix.ui.screen.*;
 import com.company.lifegame.entity.bookkeeping.Nomenclature;
+import io.jmix.ui.component.TreeTable;
+import io.jmix.ui.screen.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @UiController("lg_Nomenclature.browse")
 @UiDescriptor("nomenclature-browse.xml")
 @LookupComponent("nomenclaturesTable")
 public class NomenclatureBrowse extends StandardLookup<Nomenclature> {
+    @Autowired
+    private TreeTable<Nomenclature> nomenclaturesTable;
+
+    @Install(to = "nomenclaturesTable.create", subject = "initializer")
+    private void nomenclaturesTableCreateInitializer(Nomenclature nomenclature) {
+        Nomenclature nomenclatureSelected = nomenclaturesTable.getSingleSelected();
+        if (nomenclatureSelected != null) {
+            nomenclature.setParent(nomenclatureSelected);
+        }
+    }
 //    @Autowired
 //    private UiComponents uiComponents;
 //
@@ -24,5 +36,6 @@ public class NomenclatureBrowse extends StandardLookup<Nomenclature> {
 //            return null;
 //        }
 //    }
-    
+
+
 }
