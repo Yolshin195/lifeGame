@@ -6,6 +6,8 @@ import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.entity.annotation.OnDeleteInverse;
 import io.jmix.core.metamodel.annotation.Composition;
+import io.jmix.core.metamodel.annotation.DependsOnProperties;
+import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -13,17 +15,27 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-// TODO Warning:(22, 14) Jmix: Missing InstanceName annotation
+
 @JmixEntity
 @Table(name = "LG_ORDER", uniqueConstraints = {
         @UniqueConstraint(name = "IDX_LG_ORDER_UNIQ_OPERATION", columnNames = "OPERATION_ID")
 })
 @Entity(name = "lg_Order")
 public class Order {
+
+    @InstanceName
+    @DependsOnProperties({"date", "category", "value"})
+    public String getDisplayName() {
+        return String.format("%s(%s) - %s",
+                (category != null) ? category.getName() : null,
+                (date != null) ? date.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) : null, value);
+    }
+
     @JmixGeneratedValue
     @Column(name = "ID", nullable = false)
     @Id
@@ -89,6 +101,18 @@ public class Order {
     @JoinColumn(name = "OPERATION_ID")
     private Operation operation;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CATEGORY_ID")
+    private Category category;
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
     public void setOperation(Operation operation) {
         this.operation = operation;
     }
@@ -144,13 +168,6 @@ public class Order {
     public Integer getYear() {
         return year;
     }
-
-//    @InstanceName
-//    @DependsOnProperties({"date", "provider", "value"})
-//    public String getDisplayName(Messages messages) {
-//        return messages.formatMessage(
-//                getClass(), "Order.instanceName", this.date.toString(), this.provider.getName(), this.value.toString());
-//    }
 
     public void setDate(LocalDateTime date) {
         this.date = date;

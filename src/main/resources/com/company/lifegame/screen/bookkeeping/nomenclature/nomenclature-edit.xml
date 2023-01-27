@@ -36,6 +36,7 @@
                 <entityPicker id="categoryField" property="category"/>
                 <fileStorageUpload id="pictureField" property="picture"/>
                 <image property="picture"/>
+                <checkBox id="groupField" property="group"/>
             </column>
         </form>
         <hbox id="editActions" spacing="true">

@@ -5,16 +5,15 @@ import com.company.lifegame.entity.bookkeeping.Operation;
 import com.company.lifegame.entity.bookkeeping.OperationType;
 import com.company.lifegame.service.DateService;
 import com.company.lifegame.service.bookkeeping.BalanceService;
+import com.company.lifegame.service.bookkeeping.RateService;
 import io.jmix.core.EntityStates;
-import io.jmix.ui.component.DateField;
-import io.jmix.ui.component.EntityPicker;
-import io.jmix.ui.component.HasValue;
-import io.jmix.ui.component.TextField;
+import io.jmix.ui.component.*;
 import io.jmix.ui.screen.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @UiController("lg_Operation.edit")
 @UiDescriptor("operation-edit.xml")
@@ -26,11 +25,18 @@ public class OperationEdit extends StandardEditor<Operation> {
 
     @Autowired
     private DateService dateService;
+
     @Autowired
     private BalanceService balanceService;
 
     @Autowired
+    private RateService rateService;
+
+    @Autowired
     private DateField<LocalDateTime> dateField;
+
+    @Autowired
+    private ComboBox<OperationType> typeField;
 
     @Autowired
     private TextField<BigDecimal> valueOneField;
@@ -91,6 +97,23 @@ public class OperationEdit extends StandardEditor<Operation> {
     void setVisibleExpense(boolean visible) {
         accountOneField.setVisible(visible);
         valueOneField.setVisible(visible);
+    }
+
+    @Subscribe("valueOneField")
+    public void onValueOneFieldValueChange(HasValue.ValueChangeEvent<BigDecimal> event) {
+        boolean valid = event.getValue() != null
+                && accountOneField != null
+                && accountOneField.getValue() != null
+                && accountTwoField != null
+                && accountTwoField.getValue() != null;
+
+        if (valid && Objects.equals(typeField.getValue(), OperationType.TRANSFER)) {
+            valueTwoField.setValue(rateService.convert(
+                    event.getValue(),
+                    accountOneField.getValue().getCurrency(),
+                    accountTwoField.getValue().getCurrency())
+            );
+        }
     }
 
 }

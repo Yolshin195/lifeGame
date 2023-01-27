@@ -77,8 +77,16 @@ public class RateService {
         return convert(value, from, "USD", date);
     }
 
+    public BigDecimal convert(BigDecimal value, Currency from, Currency to) {
+        return convert(value, from, to, LocalDate.now());
+    }
+
+    public BigDecimal convert(BigDecimal value, Currency from, Currency to, LocalDate date) {
+        return convert(value, from.getShortName(), to.getShortName(), date);
+    }
+
     public BigDecimal convert(BigDecimal value, Currency from, String to, LocalDate date) {
-        if (value == null || from == null) return BigDecimal.ZERO;
+        if (value == null || from == null || to == null) return BigDecimal.ZERO;
 
         return convert(value, from.getShortName(), to, date);
     }
@@ -101,10 +109,9 @@ public class RateService {
         return BigDecimal.ZERO;
     }
 
-    private Optional<Rate> findByCode(String from, String to, LocalDate date) {
-
+    public Optional<Rate> findByCode(String from, String to, LocalDate date) {
         return dataManager.load(Rate.class)
-                .query("(e.code = :firstCode or e.code = :secondCode) and e.date = :date")
+                .query("(e.code = :firstCode or e.code = :secondCode) and e.date <= :date order by e.date DESC")
                 .parameter("firstCode", from + to)
                 .parameter("secondCode", to + from)
                 .parameter("date", date)

@@ -59,6 +59,9 @@ public class Nomenclature {
     @JoinColumn(name = "PARENT_ID")
     private Nomenclature parent;
 
+    @Column(name = "GROUP_", nullable = false)
+    private Boolean group = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
@@ -72,6 +75,14 @@ public class Nomenclature {
 
     @Column(name = "PICTURE", length = 1024)
     private FileRef picture;
+
+    public void setGroup(Boolean group) {
+        this.group = group;
+    }
+
+    public Boolean getGroup() {
+        return group;
+    }
 
     public void setCategory(Category category) {
         this.category = category;

@@ -22,6 +22,7 @@ public class OperationService {
         return order.getDate() != null
                 && order.getAccount() != null
                 && order.getCurrency() != null
+                && order.getCategory() != null
                 && order.getValue() != null
                 && order.getValue().compareTo(BigDecimal.ZERO) != 0;
     }
@@ -40,6 +41,7 @@ public class OperationService {
         operation.setDate(order.getDate());
         operation.setAccountOne(order.getAccount());
         operation.setValueOne(order.getValue());
+        operation.setCategory(order.getCategory());
         return operation;
     }
 }
