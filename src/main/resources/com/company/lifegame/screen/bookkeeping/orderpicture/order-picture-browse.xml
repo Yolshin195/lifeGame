@@ -5,7 +5,9 @@
     <data readOnly="true">
         <collection id="orderPicturesDc"
                     class="com.company.lifegame.entity.bookkeeping.OrderPicture">
-            <fetchPlan extends="_base"/>
+            <fetchPlan extends="_base">
+                <property name="order" fetchPlan="_base"/>
+            </fetchPlan>
             <loader id="orderPicturesDl">
                 <query>
                     <![CDATA[select e from lg_OrderPicture e]]>
@@ -45,6 +47,7 @@
             <columns>
                 <column id="picture"/>
                 <column id="description"/>
+                <column id="order"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"

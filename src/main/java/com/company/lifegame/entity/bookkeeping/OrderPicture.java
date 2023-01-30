@@ -34,6 +34,18 @@ public class OrderPicture {
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ORDER_ID")
+    private Order order;
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }

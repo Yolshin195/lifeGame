@@ -6,7 +6,7 @@ plugins {
 apply plugin: 'org.springframework.boot'
 
 jmix {
-    bomVersion = '1.4.3'
+    bomVersion = '1.4.4'
     projectId = 'lg'
 }
 
@@ -62,10 +62,6 @@ dependencies {
     // add-ons REST Api
     implementation 'io.jmix.security:jmix-security-oauth2-starter'
     implementation 'io.jmix.rest:jmix-rest-starter'
-
-    //implementation 'net.sourceforge.tess4j:tess4j:5.5.0'
-    //implementation 'org.telegram:telegrambots:6.4.0'
-
 }
 
 test {

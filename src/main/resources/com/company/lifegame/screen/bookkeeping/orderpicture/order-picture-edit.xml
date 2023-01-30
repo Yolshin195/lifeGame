@@ -5,7 +5,9 @@
     <data>
         <instance id="orderPictureDc"
                   class="com.company.lifegame.entity.bookkeeping.OrderPicture">
-            <fetchPlan extends="_base"/>
+            <fetchPlan extends="_base">
+                <property name="order" fetchPlan="_base"/>
+            </fetchPlan>
             <loader/>
         </instance>
     </data>
@@ -27,8 +29,12 @@
     <layout spacing="true" expand="editActions">
         <form id="form" dataContainer="orderPictureDc">
             <column width="350px">
-                <image property="picture" scaleMode="SCALE_DOWN"/>
+                <entityPicker id="orderField" property="order"/>
                 <fileStorageUpload id="pictureField" property="picture"/>
+                <image property="picture" scaleMode="SCALE_DOWN"/>
+                <buttonsPanel>
+                    <button id="doOcrBtn" caption="Извлечь текст" disableOnClick="true"/>
+                </buttonsPanel>
                 <resizableTextArea id="descriptionField" property="description" resizableDirection="BOTH"/>
             </column>
         </form>
