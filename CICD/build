@@ -1,0 +1,6 @@
+#!/bin/bash
+
+sudo systemctl stop lifeGame.service
+git pull
+./gradlew bootJar
+sudo systemctl start lifeGame.service
