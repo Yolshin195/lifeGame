@@ -3,8 +3,6 @@ package com.company.lifegame.screen.bookkeeping.orderpicture;
 import com.company.lifegame.entity.OcrParsedResultsDTO;
 import com.company.lifegame.entity.bookkeeping.OrderPicture;
 import com.company.lifegame.service.bookkeeping.ReceiptOCRApiService;
-import io.jmix.core.FileStorageLocator;
-import io.jmix.localfs.LocalFileStorageProperties;
 import io.jmix.ui.component.Button;
 import io.jmix.ui.component.FileStorageUploadField;
 import io.jmix.ui.component.ResizableTextArea;
@@ -28,10 +26,6 @@ public class OrderPictureEdit extends StandardEditor<OrderPicture> {
 
     @Autowired
     private FileStorageUploadField pictureField;
-    @Autowired
-    private LocalFileStorageProperties localFileStorageProperties;
-    @Autowired
-    private FileStorageLocator fileStorageLocator;
 
     @Subscribe("doOcrBtn")
     public void onDoOcrBtnClick(Button.ClickEvent event) {
@@ -40,7 +34,7 @@ public class OrderPictureEdit extends StandardEditor<OrderPicture> {
 
             List<OcrParsedResultsDTO.ParsedResult> parsedResultList = ocrParsedResultsDTO.getParsedResults();
 
-            if (parsedResultList.size() > 0) {
+            if (parsedResultList != null && parsedResultList.size() > 0) {
                 descriptionField.setValue(parsedResultList.get(0).ParsedText());
             }
         }
