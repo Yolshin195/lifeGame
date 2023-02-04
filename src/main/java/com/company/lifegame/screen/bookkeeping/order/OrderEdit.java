@@ -6,6 +6,7 @@ import com.company.lifegame.service.bookkeeping.AccountService;
 import com.company.lifegame.service.bookkeeping.OperationService;
 import com.company.lifegame.service.bookkeeping.RateService;
 import io.jmix.ui.Notifications;
+import io.jmix.ui.RemoveOperation;
 import io.jmix.ui.action.BaseAction;
 import io.jmix.ui.component.*;
 import io.jmix.ui.icon.JmixIcon;
@@ -21,6 +22,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @UiController("lg_Order.edit")
 @UiDescriptor("order-edit.xml")
@@ -95,37 +97,67 @@ public class OrderEdit extends StandardEditor<Order> {
         }
     }
 
+    @Install(to = "orderItemsTable.create", subject = "afterCommitHandler")
+    private void orderItemsTableCreateAfterCommitHandler(OrderItem orderItem) {
+        onChangeOrderItems();
+    }
+
+    @Install(to = "orderItemsTable.edit", subject = "afterCommitHandler")
+    private void orderItemsTableEditAfterCommitHandler(OrderItem orderItem) {
+        onChangeOrderItems();
+    }
+
+    @Install(to = "orderItemsTable.remove", subject = "afterActionPerformedHandler")
+    private void orderItemsTableRemoveAfterActionPerformedHandler(RemoveOperation.AfterActionPerformedEvent<OrderItem> afterActionPerformedEvent) {
+        onChangeOrderItems();
+    }
+
+    public void onChangeOrderItems() {
+        boolean valid = orderItemsTable.getItems() != null
+                && orderItemsTable.getItems().size() != 0;
+
+        if (valid) {
+            updateValueField(orderItemsTable.getItems().getItems());
+            updateCategoryField(orderItemsTable.getItems().getItems());
+        }
+    }
+
     @Subscribe(id = "orderItemsDc", target = Target.DATA_CONTAINER)
     public void onOrderItemsDcCollectionChange(CollectionContainer.CollectionChangeEvent<OrderItem> event) {
         boolean valid = orderItemsTable.getItems() != null
                 && orderItemsTable.getItems().size() != 0;
 
         if (valid) {
-            BigDecimal sum = orderItemsTable.getItems().getItems()
-                    .map(OrderItem::getValue)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-            valueField.setValue(sum);
-
             if (currencyField.getValue() != null) {
                 updateValueUSDAndRUB();
             }
+        }
+    }
 
-            Map<Category, Long> categoryGroupsMap = orderItemsTable.getItems().getItems()
-                    .map(OrderItem::getProviderItem)
-                    .filter(Objects::nonNull)
-                    .map(ProviderItem::getNomenclature)
-                    .filter(Objects::nonNull)
-                    .filter(nomenclature -> nomenclature.getCategory() != null)
-                    .collect(Collectors.groupingBy(Nomenclature::getCategory, Collectors.counting()));
+    private void updateValueField(Stream<OrderItem> orderItemStream) {
+        BigDecimal sum = orderItemStream
+                .map(OrderItem::getValue)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-            if (categoryGroupsMap.size() > 0) {
-                Category category = Collections
-                        .max(categoryGroupsMap.entrySet(), Comparator.comparingLong(Map.Entry::getValue))
-                        .getKey();
+        valueField.setValue(sum);
+    }
 
-                categoryField.setValue(category);
-            }
+    private void updateCategoryField(Stream<OrderItem> orderItemStream) {
+        Map<Category, Long> categoryGroupsMap = orderItemStream
+                .map(OrderItem::getProviderItem)
+                .filter(Objects::nonNull)
+                .map(ProviderItem::getNomenclature)
+                .filter(Objects::nonNull)
+                .filter(nomenclature -> nomenclature.getCategory() != null)
+                .collect(Collectors.groupingBy(Nomenclature::getCategory, Collectors.counting()));
+
+        if (categoryGroupsMap.size() > 0) {
+            Category category = Collections
+                    .max(categoryGroupsMap.entrySet(), Comparator.comparingLong(Map.Entry::getValue))
+                    .getKey();
+
+
+            categoryField.setValue(category);
         }
     }
 
