@@ -55,7 +55,11 @@
                         <action id="entityOpen" type="entity_open"/>
                     </actions>
                 </entityPicker>
-                <textField id="valueField" property="value"/>
+                <valuePicker id="valueField" property="value" fieldEditable="true">
+                    <actions>
+                        <action id="update" icon="REFRESH"/>
+                    </actions>
+                </valuePicker>
                 <currencyField id="valueUSDField" property="valueUSD" currency="$"/>
                 <currencyField id="valueRUBField" property="valueRUB" currency="₽"/>
             </column>

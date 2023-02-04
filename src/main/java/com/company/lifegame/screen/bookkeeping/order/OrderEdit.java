@@ -1,26 +1,25 @@
 package com.company.lifegame.screen.bookkeeping.order;
 
+import com.company.lifegame.entity.bookkeeping.Currency;
 import com.company.lifegame.entity.bookkeeping.*;
 import com.company.lifegame.service.DateService;
 import com.company.lifegame.service.bookkeeping.AccountService;
 import com.company.lifegame.service.bookkeeping.OperationService;
 import com.company.lifegame.service.bookkeeping.RateService;
+import com.google.common.base.Strings;
 import io.jmix.ui.Notifications;
 import io.jmix.ui.RemoveOperation;
+import io.jmix.ui.action.Action;
 import io.jmix.ui.action.BaseAction;
 import io.jmix.ui.component.*;
 import io.jmix.ui.icon.JmixIcon;
-import io.jmix.ui.model.CollectionContainer;
 import io.jmix.ui.model.InstanceLoader;
 import io.jmix.ui.screen.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -37,7 +36,7 @@ public class OrderEdit extends StandardEditor<Order> {
     @Autowired
     private EntityPicker<Currency> currencyField;
     @Autowired
-    private TextField<BigDecimal> valueField;
+    private ValuePicker<BigDecimal> valueField;
     @Autowired
     private CurrencyField<BigDecimal> valueUSDField;
     @Autowired
@@ -113,33 +112,34 @@ public class OrderEdit extends StandardEditor<Order> {
     }
 
     public void onChangeOrderItems() {
-        boolean valid = orderItemsTable.getItems() != null
-                && orderItemsTable.getItems().size() != 0;
+        onValueFieldUpdate(null);
+        getOrderItems().ifPresent(this::updateCategoryField);
+    }
 
-        if (valid) {
-            updateValueField(orderItemsTable.getItems().getItems());
-            updateCategoryField(orderItemsTable.getItems().getItems());
+    @Subscribe("currencyField")
+    public void onCurrencyFieldValueChange(HasValue.ValueChangeEvent<Currency> event) {
+        Currency currency = event.getValue();
+        if (currency != null) {
+            updateValueUSDAndRUB();
+
+            accountService.getDefaultValue(currency)
+                    .ifPresent(accountField::setValue);
         }
     }
 
-    @Subscribe(id = "orderItemsDc", target = Target.DATA_CONTAINER)
-    public void onOrderItemsDcCollectionChange(CollectionContainer.CollectionChangeEvent<OrderItem> event) {
-        boolean valid = orderItemsTable.getItems() != null
-                && orderItemsTable.getItems().size() != 0;
+    @Subscribe("valueField")
+    public void onValueFieldFieldValueChange(ValuePicker.FieldValueChangeEvent<BigDecimal> event) {
+        String value = event.getText();
 
-        if (valid) {
-            if (currencyField.getValue() != null) {
-                updateValueUSDAndRUB();
-            }
+        if (!Strings.isNullOrEmpty(value)) {
+            valueField.setValue(new BigDecimal(value.replaceAll(" ", "").replace(",", ".")));
         }
     }
 
-    private void updateValueField(Stream<OrderItem> orderItemStream) {
-        BigDecimal sum = orderItemStream
-                .map(OrderItem::getValue)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        valueField.setValue(sum);
+    @Subscribe("valueField.update")
+    public void onValueFieldUpdate(Action.ActionPerformedEvent event) {
+        valueField.setValue(getSumOrderItems());
+        updateValueUSDAndRUB();
     }
 
     private void updateCategoryField(Stream<OrderItem> orderItemStream) {
@@ -161,20 +161,26 @@ public class OrderEdit extends StandardEditor<Order> {
         }
     }
 
-    @Subscribe("currencyField")
-    public void onCurrencyFieldValueChange(HasValue.ValueChangeEvent<Currency> event) {
-        Currency currency = event.getValue();
-        if (currency != null) {
-            updateValueUSDAndRUB();
-
-            accountService.getDefaultValue(currency)
-                    .ifPresent(accountField::setValue);
-        }
-    }
-
     private void updateValueUSDAndRUB() {
         valueUSDField.setValue(rateService.convertToUSD(valueField.getValue(), currencyField.getValue(), dateField.getValue()));
         valueRUBField.setValue(rateService.convertToRUB(valueField.getValue(), currencyField.getValue(), dateField.getValue()));
+    }
+
+    private BigDecimal getSumOrderItems() {
+        return getOrderItems().map(itemStream -> itemStream
+                .map(OrderItem::getValue)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)).orElse(BigDecimal.ZERO);
+    }
+
+    private Optional<Stream<OrderItem>> getOrderItems() {
+        boolean valid = orderItemsTable.getItems() != null
+                && orderItemsTable.getItems().size() != 0;
+
+        if (valid) {
+            return Optional.of(orderItemsTable.getItems().getItems());
+        }
+
+        return Optional.empty();
     }
 
 }
