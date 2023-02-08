@@ -7,6 +7,7 @@ import com.company.lifegame.service.DateService;
 import com.company.lifegame.service.bookkeeping.BalanceService;
 import com.company.lifegame.service.bookkeeping.RateService;
 import io.jmix.core.EntityStates;
+import io.jmix.ui.Notifications;
 import io.jmix.ui.component.*;
 import io.jmix.ui.screen.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,8 @@ import java.util.Objects;
 @UiDescriptor("operation-edit.xml")
 @EditedEntityContainer("operationDc")
 public class OperationEdit extends StandardEditor<Operation> {
-
+    @Autowired
+    private Notifications notifications;
     @Autowired
     private EntityStates entityStates;
 
@@ -60,7 +62,17 @@ public class OperationEdit extends StandardEditor<Operation> {
 
         // Применяем операцию к счетам
         if (entityStates.isNew(getEditedEntity())) {
-            balanceService.perform(getEditedEntity());
+            StringBuilder errors = new StringBuilder();
+
+            balanceService.perform(getEditedEntity(), errors);
+
+            if (!errors.isEmpty()) {
+                notifications.create()
+                        .withCaption("Ошибка применения операции")
+                        .withDescription(errors.toString())
+                        .show();
+                event.preventCommit();
+            }
         }
     }
 

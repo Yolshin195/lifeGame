@@ -41,10 +41,32 @@ public class OrderItem {
     private Price price;
 
     @Column(name = "AMOUNT")
-    private Double amount;
+    private BigDecimal amount;
+
+    @Column(name = "DISCOUNT_TYPE")
+    private String discountType;
+
+    @Column(name = "DISCOUNT")
+    private BigDecimal discount;
 
     @Column(name = "VALUE_")
     private BigDecimal value;
+
+    public void setDiscount(BigDecimal discount) {
+        this.discount = discount;
+    }
+
+    public BigDecimal getDiscount() {
+        return discount;
+    }
+
+    public void setDiscountType(DiscountTypeEnum discountType) {
+        this.discountType = (discountType == null) ? null : discountType.getId();
+    }
+
+    public DiscountTypeEnum getDiscountType() {
+        return DiscountTypeEnum.fromId(discountType);
+    }
 
     public void setValue(BigDecimal value) {
         this.value = value;
@@ -54,11 +76,11 @@ public class OrderItem {
         return value;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 

@@ -52,6 +52,7 @@
                         <action id="entityClear" type="entity_clear"/>
                     </actions>
                 </entityPicker>
+                <textField id="discountField" property="discount"/>
                 <textField id="amountField" property="amount"/>
                 <textField id="valueField" property="value"/>
             </column>

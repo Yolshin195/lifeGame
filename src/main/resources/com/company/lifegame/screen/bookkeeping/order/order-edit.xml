@@ -75,6 +75,7 @@
                     <column id="nomenclature" property="providerItem"/>
                     <column id="price" property="price"/>
                     <column id="amount" property="amount"/>
+                    <column id="discount" property="discount"/>
                     <column id="value" property="value"/>
                 </columns>
                 <buttonsPanel>
