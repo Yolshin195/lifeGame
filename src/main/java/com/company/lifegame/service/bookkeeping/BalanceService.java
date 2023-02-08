@@ -18,24 +18,28 @@ public class BalanceService {
     @Autowired
     private DateService dateService;
 
-    private void expense(Operation operation) {
+    private void expense(Operation operation, StringBuilder errors) {
         Balance balance = dataManager.create(Balance.class);
         balance.setDate(dateService.now());
         balance.setCurrent(true);
         balance.setAccount(operation.getAccountOne());
 
         Optional<Balance> currentOptional = getCurrent(operation.getAccountOne());
+
         if (currentOptional.isPresent()) {
             Balance current = currentOptional.get();
             current.setCurrent(false);
 
-            balance.setValue(current.getValue().subtract(operation.getValueOne()));
+            BigDecimal value = current.getValue().subtract(operation.getValueOne());
 
-            dataManager.save(current, balance);
+            if (value.signum() != -1) {
+                balance.setValue(value);
+                dataManager.save(current, balance);
+            } else {
+                errors.append("Не достаточно средств!");
+            }
         } else {
-            balance.setValue(BigDecimal.ZERO.subtract(operation.getValueOne()));
-
-            dataManager.save(balance);
+            errors.append("Не достаточно средств! У вабранного счёта нету текущего баланса.");
         }
     }
 
@@ -60,16 +64,16 @@ public class BalanceService {
         }
     }
 
-    private void transfer(Operation operation) {
-        expense(operation);
+    private void transfer(Operation operation, StringBuilder errors) {
+        expense(operation, errors);
         income(operation);
     }
 
-    public void perform(Operation operation) {
+    public void perform(Operation operation, StringBuilder errors) {
         switch (operation.getType()) {
-            case EXPENSE -> expense(operation);
+            case EXPENSE -> expense(operation, errors);
             case INCOME -> income(operation);
-            case TRANSFER -> transfer(operation);
+            case TRANSFER -> transfer(operation, errors);
         }
     }
 

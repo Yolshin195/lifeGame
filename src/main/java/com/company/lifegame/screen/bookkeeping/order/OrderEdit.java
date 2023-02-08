@@ -76,8 +76,19 @@ public class OrderEdit extends StandardEditor<Order> {
                     .withIcon(JmixIcon.CREATE_ACTION.source())
                     .withHandler(e -> {
                         if (operationService.validate(getEditedEntity())) {
-                            operationField.setValue(operationService.create(getEditedEntity()));
-                            operationField.removeAction("entityCreate");
+                            StringBuilder errors = new StringBuilder();
+
+                            operationService.create(getEditedEntity(), errors)
+                                    .ifPresent(operationField::setValue);
+
+                            if (errors.isEmpty()) {
+                                operationField.removeAction("entityCreate");
+                            } else {
+                                notifications.create()
+                                        .withCaption("Не удалось создать проводку.")
+                                        .withDescription(errors.toString())
+                                        .show();
+                            }
                         } else {
                             notifications.create()
                                     .withCaption("Ошибка создания операции")

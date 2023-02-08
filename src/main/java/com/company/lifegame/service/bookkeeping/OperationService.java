@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Component("lg_OperationService")
 public class OperationService {
@@ -27,12 +28,11 @@ public class OperationService {
                 && order.getValue().compareTo(BigDecimal.ZERO) != 0;
     }
 
-    public Operation create(Order order) {
-        Operation operation = dataManager.save(build(order));
+    public Optional<Operation> create(Order order, StringBuilder errors) {
+        Operation operation = build(order);
+        balanceService.perform(operation, errors);
 
-        balanceService.perform(operation);
-
-        return operation;
+        return (errors.isEmpty()) ? Optional.of(dataManager.save(operation)) : Optional.empty();
     }
 
     public Operation build(Order order) {

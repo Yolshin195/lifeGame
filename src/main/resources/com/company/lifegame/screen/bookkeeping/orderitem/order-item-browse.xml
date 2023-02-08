@@ -55,6 +55,8 @@
                 <column id="price"/>
                 <column id="amount"/>
                 <column id="value"/>
+                <column id="discountType"/>
+                <column id="discount"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"

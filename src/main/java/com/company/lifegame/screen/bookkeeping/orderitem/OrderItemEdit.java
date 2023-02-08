@@ -1,6 +1,7 @@
 package com.company.lifegame.screen.bookkeeping.orderitem;
 
 import com.company.lifegame.entity.bookkeeping.Order;
+import com.company.lifegame.entity.bookkeeping.OrderItem;
 import com.company.lifegame.entity.bookkeeping.Price;
 import com.company.lifegame.entity.bookkeeping.ProviderItem;
 import com.company.lifegame.service.bookkeeping.PriceService;
@@ -9,7 +10,6 @@ import io.jmix.ui.component.EntityPicker;
 import io.jmix.ui.component.HasValue;
 import io.jmix.ui.component.TextField;
 import io.jmix.ui.screen.*;
-import com.company.lifegame.entity.bookkeeping.OrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
@@ -31,7 +31,9 @@ public class OrderItemEdit extends StandardEditor<OrderItem> {
     @Autowired
     private TextField<BigDecimal> valueField;
     @Autowired
-    private TextField<Double> amountField;
+    private TextField<BigDecimal> discountField;
+    @Autowired
+    private TextField<BigDecimal> amountField;
 
     @Install(to = "providerItemField.entityLookup", subject = "screenOptionsSupplier")
     private ScreenOptions providerItemFieldEntityLookupScreenOptionsSupplier() {
@@ -70,13 +72,22 @@ public class OrderItemEdit extends StandardEditor<OrderItem> {
         updateValue();
     }
 
+    @Subscribe("discountField")
+    public void onDiscountFieldValueChange(HasValue.ValueChangeEvent<BigDecimal> event) {
+        updateValue();
+    }
+
     private void updateValue() {
         if (providerItemField.getValue() == null) return;
         if (providerItemField.getValue().getNomenclature() == null) return;
         if (priceField.getValue() == null) return;
         if (amountField.getValue() == null) return;
 
-        valueField.setValue(priceField.getValue().getValue().multiply(BigDecimal.valueOf(amountField.getValue())));
+        BigDecimal price = priceField.getValue().getValue();
+        BigDecimal discount = discountField.isEmpty() ? BigDecimal.ZERO : discountField.getValue();
+        BigDecimal amount = amountField.getValue();
+
+        valueField.setValue(price.subtract(discount).multiply(amount));
     }
 
 }
