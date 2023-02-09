@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
-        xmlns:c="http://jmix.io/schema/ui/jpql-condition"
         caption="msg://orderBrowse.caption"
         focusComponent="ordersTable">
     <data readOnly="true">
@@ -41,8 +40,15 @@
                 width="800"/>
     <layout expand="ordersTable" spacing="true">
         <filter id="filter"
-                dataLoader="ordersDl">
+                dataLoader="ordersDl"
+                collapsed="true">
             <properties include=".*"/>
+            <configurations>
+                <configuration id="currentMonthFilter" name="msg://orderBrowse.currentMonthFilter" default="true">
+                    <propertyFilter id="yearPropertyFilter" property="year" operation="EQUAL"/>
+                    <propertyFilter id="monthPropertyFilter" property="month" operation="EQUAL"/>
+                </configuration>
+            </configurations>
         </filter>
         <groupTable id="ordersTable"
                     width="100%"
